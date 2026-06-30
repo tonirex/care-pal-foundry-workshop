@@ -1,0 +1,73 @@
+# content/config/workshop.yaml
+# Care Pal Foundry Day — workshop configuration.
+# Reuses the Fabric-day gamified platform; only content + a few flags differ.
+workshop:
+  name: "From Discharge to Recovery — NTFGH Foundry Day"
+  date: "2026-07-XX"            # confirm with NTFGH
+  access_code: "CAREPAL26"
+  facilitator_email: "antonia.chen@microsoft.com"
+
+  industry: healthcare-agents  # reuse healthcare palette; new key for agent-day copy
+  default_theme: system        # light | dark | system
+
+  branding:
+    hospital_name: "Ng Teng Fong General Hospital"
+    foundry_project: "ntfgh-carepal-workshop"   # single SHARED project for the room
+
+  # --- Agent-workshop specific flags (new vs Fabric day) ---
+  rails_enabled: true          # show per-task rail tabs: navigator | builder | engineer
+  default_rail: navigator      # safest default for a mixed room
+  agent_validation: true       # validators may probe an agent endpoint (Type B, see plan section 9)
+  agent_naming_convention: "carepal-<initials>"   # collision-free names in the shared project
+
+  leaderboard_reveal_mode: aggregate   # aggregate | top3 | full
+  stuck_threshold_attempts: 3
+
+  labs:
+    - id: lab-00
+      title: "Hello, Care Pal"
+      is_active: false
+      tiers: [navigator, builder, engineer]
+      required_rails: [navigator]        # everyone does at least navigator
+    - id: lab-01
+      title: "Triage Agent"
+      is_active: false
+      tiers: [navigator, builder, engineer]
+    - id: lab-02
+      title: "Knowledge & Grounding"
+      is_active: false
+      tiers: [navigator, builder, engineer]
+    - id: lab-03
+      title: "Govern & Observe"
+      is_active: false
+      tiers: [navigator, builder, engineer]
+    - id: lab-04
+      title: "Multi-Agent Care Pal"
+      is_active: false
+      tiers: [navigator, builder, engineer]
+    - id: lab-05
+      title: "Extend & Deploy"
+      is_active: false
+      tiers: [engineer]                  # demo-for-all, hands-on for engineers
+      fallback_demo_only: true           # protects the one-day timebox
+      optional_channel_stretch: true     # WhatsApp/Telegram only if time remains
+
+  gamification:
+    speed_bonus_enabled: true
+    early_bird_minutes: 5
+    max_attempts: 5
+    leaderboard_refresh_seconds: 3
+    bonus_quests_enabled: true
+    badges:
+      - { id: first_responder, label: "First Responder", trigger: "complete lab-00" }
+      - { id: prompt_engineer, label: "Prompt Engineer", trigger: "complete lab-01" }
+      - { id: librarian,       label: "Librarian",       trigger: "complete lab-02" }
+      - { id: guardian,        label: "Guardian",        trigger: "complete lab-03" }
+      - { id: orchestrator,    label: "Orchestrator",    trigger: "complete lab-04" }
+      - { id: deployer,        label: "Deployer",        trigger: "complete lab-05" }
+      - { id: channel_pioneer, label: "Channel Pioneer", trigger: "complete lab-05 channel stretch" }
+
+  models:
+    teaching_default: "model-router"   # never stall on model choice
+    customer_production: "gpt-5.4-mini"
+    deployment_type: "Global Standard"

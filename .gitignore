@@ -1,0 +1,29 @@
+# Secrets — never commit a real .env (keep .env.example)
+.env
+content/assets/.env
+*.env
+!*.env.example
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.venv-*/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Azure / azd
+.azure/
+
+# Build + scaffolding logs
+create.log
+*.log
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json

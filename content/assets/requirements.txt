@@ -1,0 +1,13 @@
+# Care Pal workshop — Python dependencies (Builder + Engineer rails)
+# Targets the CURRENT Microsoft Foundry agents API (new agents, azure-ai-projects 2.x).
+# This is the same backend the Foundry portal drives — not the classic Assistants API.
+
+azure-ai-projects>=2.0.0        # new agents: create_version + PromptAgentDefinition + Responses
+openai>=2.8.0                   # responses + conversations via project.get_openai_client()
+azure-identity>=1.15.0          # DefaultAzureCredential (run `az login` first)
+azure-ai-evaluation>=1.0.0      # Lab 3 only — safety / quality evaluators
+python-dotenv>=1.0.0            # load a local .env
+pydantic>=2.0.0                 # optional — define structured-output schemas as models
+
+# Optional, Engineer "go further" (Lab 4 multi-agent, code-first orchestration):
+# agent-framework>=1.0.0        # Microsoft Agent Framework (FoundryChatClient / FoundryAgent)

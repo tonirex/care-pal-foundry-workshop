@@ -1,0 +1,65 @@
+{
+  "_comment": "Care Pal canonical structured-output schema. Used as the structured output (text format) from Lab 1 onward. Referenced by content/labs/lab-01.md. Keep enums in sync with content/prompts/test-prompts.json.",
+  "name": "care_pal_triage",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "intent",
+      "risk_level",
+      "route",
+      "reply",
+      "source_labels",
+      "source_urls",
+      "clarifying_questions"
+    ],
+    "properties": {
+      "intent": {
+        "type": "string",
+        "enum": [
+          "greeting",
+          "unclear",
+          "self_care_education",
+          "symptom_report",
+          "medication_question",
+          "navigation_request",
+          "follow_up",
+          "enrollment_query"
+        ]
+      },
+      "risk_level": {
+        "type": "string",
+        "enum": ["unclear", "low", "medium", "high"]
+      },
+      "route": {
+        "type": "string",
+        "enum": [
+          "clarification",
+          "education_navigation",
+          "timely_review",
+          "immediate_escalation"
+        ]
+      },
+      "reply": {
+        "type": "string",
+        "description": "Patient-facing message. Plain, warm, <120 words. Never diagnoses."
+      },
+      "source_labels": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Human-readable names of grounded sources actually used. Empty if none."
+      },
+      "source_urls": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "URLs for the sources. MUST be empty when no grounded source supports the reply — never fabricate."
+      },
+      "clarifying_questions": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Questions to ask when info is insufficient. Empty unless route = clarification."
+      }
+    }
+  }
+}

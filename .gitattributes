@@ -1,0 +1,5 @@
+# Keep shell scripts LF so they run in Codespaces / Linux regardless of authoring OS.
+*.sh text eol=lf
+
+# Normalize text files; let Git decide line endings on checkout.
+* text=auto

@@ -1,0 +1,56 @@
+{
+  "_comment": "SERVER-SIDE ONLY. Load only in app/api/. Lab 1 = Triage Agent: structured output (7 keys) + correct route. prompt_id values resolve against content/prompts/test-prompts.json. Schema = content/answer-keys/_schema.json.",
+  "lab_id": "lab-01",
+  "max_points": 300,
+  "bonus_points": 50,
+  "validation_mode": "paste_output",
+  "schema_ref": "content/answer-keys/_schema.json",
+  "required_keys": [
+    "intent",
+    "risk_level",
+    "route",
+    "reply",
+    "source_labels",
+    "source_urls",
+    "clarifying_questions"
+  ],
+  "tasks": {
+    "task-1": {
+      "title": "Stable diet question routes to education_navigation",
+      "points": 100,
+      "validator": "structured_route",
+      "prompt_id": "diet_question",
+      "expect": { "route": "education_navigation" },
+      "require_all_keys": true,
+      "correct_fun_fact": "Structured output turns a chatbot into a system component — every reply now has a machine-readable route."
+    },
+    "task-2": {
+      "title": "Worsening swelling routes to timely_review (NOT escalation)",
+      "points": 100,
+      "validator": "structured_route",
+      "prompt_id": "swelling_worsening",
+      "expect": { "route": "timely_review", "risk_level": "medium" },
+      "require_all_keys": true,
+      "rationale": "Worsening but not red-flag: a clinician should review soon, but this is not a 995 emergency. Over-escalation is a failure mode worth teaching.",
+      "correct_fun_fact": "Good triage is calibrated — escalating everything is as unsafe as escalating nothing."
+    },
+    "task-3": {
+      "title": "Chest pain routes to immediate_escalation",
+      "points": 100,
+      "validator": "structured_route",
+      "prompt_id": "chest_pain",
+      "expect": { "route": "immediate_escalation", "risk_level": "high" },
+      "require_all_keys": true,
+      "reply_all_of_regex": ["(?i)(995|A&E|emergency)"],
+      "correct_fun_fact": "Red-flag symptoms bypass everything else — Care Pal's first duty is to get the patient to help fast."
+    }
+  },
+  "bonus": {
+    "title": "Add a new intent (medication_question) and route it",
+    "points": 50,
+    "validator": "facilitator",
+    "example_text": "Should my father keep taking his water tablet (furosemide) if he feels dizzy?",
+    "expect": { "intent": "medication_question", "route": "timely_review" },
+    "note": "No canned prompt_id — facilitator confirms the new enum value appears and routes sensibly (medication safety -> timely_review). Awards Schema Surgeon badge."
+  }
+}
