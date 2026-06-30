@@ -7,6 +7,7 @@ platform (Next.js + Supabase) with only a config + validator delta.
 ```
 content/
   config/workshop.yaml                  # platform config (shared project, rails, labs, badges)
+  admin/ADMIN-SETUP.md                  # admin & pre-workshop logistics (RBAC script, models, MCP, dry-run)
   narrative/rajan.md                    # patient story — one chapter per lab
   prompts/test-prompts.json             # SINGLE SOURCE OF TRUTH for canned prompts + expected routes
   labs/lab-00.md ... lab-05.md          # participant-facing, rail-tabbed (navigator/builder/engineer)

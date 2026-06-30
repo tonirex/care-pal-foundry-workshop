@@ -434,6 +434,9 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 ## 12. Pre-Workshop Setup & Prerequisites
 
+> 🛠️ **Operators:** a step-by-step, copy-paste version of this section (with a ready-to-run RBAC
+> script) lives at [`content/admin/ADMIN-SETUP.md`](content/admin/ADMIN-SETUP.md).
+
 **Provisioning model (decided): one shared Foundry project** `ntfgh-carepal-workshop` for the whole room — simplest for a mixed/non-technical audience, single quota to manage, nothing to provision per person.
 
 > **Shared-project hygiene:** everyone creates agents/resources in the *same* project, so enforce a **naming convention** to avoid collisions and make the leaderboard/certificate legible: `carepal-<yourinitials>` (e.g., `carepal-ac`). The operator pre-creates a **read-only reference agent** (`carepal-reference`) participants can clone, and the platform's certificate uses each participant's chosen agent name. Floaters keep an eye on the project's agent list for duplicates.

@@ -5,6 +5,9 @@ content/assets/.env
 !*.env.example
 !.env.example
 
+# Real attendee list (PII) — keep only attendees.example.txt
+content/admin/attendees.txt
+
 # Python
 __pycache__/
 *.py[cod]

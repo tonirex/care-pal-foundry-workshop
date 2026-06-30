@@ -115,7 +115,9 @@ each participant must be signed in to Azure **and** have access to that project.
 > without a Teams/M365 license). Everything else in Labs 0–5 is a *data action* that Foundry User
 > permits. See the plan's **§12** RBAC table.
 
-See the plan's **§12 Pre-Workshop Setup** for the full checklist.
+See the plan's **§12 Pre-Workshop Setup** — or the step-by-step
+**[admin & logistics page](content/admin/ADMIN-SETUP.md)** (with a ready-to-run RBAC script) — for the
+full checklist.
 
 ---
 
@@ -128,6 +130,7 @@ See the plan's **§12 Pre-Workshop Setup** for the full checklist.
 ├── foundry-day1-workshop-plan.md   ← the full build plan & run-of-show (facilitators)
 └── content/
     ├── README.md                   ← content map & how the pieces fit
+    ├── admin/ADMIN-SETUP.md         ← ⭐ admin & pre-workshop logistics (RBAC script, models, MCP)
     ├── labs/                        ← participant-facing labs (rail-tabbed) + PORTAL-TRACK.md (🟢)
     ├── assets/                      ← runnable code: notebooks (🟡) + scripts (🔴)
     │   ├── common/carepal_common.py ←   the one helper that calls Foundry Agent Service
@@ -146,6 +149,7 @@ See the plan's **§12 Pre-Workshop Setup** for the full checklist.
 - 🟡 **Builder:** open `content/assets/lab1_triage.ipynb`
 - 🔴 **Engineer:** [content/assets/README.md](content/assets/README.md)
 - 🧭 **Facilitators:** [foundry-day1-workshop-plan.md](foundry-day1-workshop-plan.md) · [content/README.md](content/README.md)
+- 🛠️ **Admin / operator:** [content/admin/ADMIN-SETUP.md](content/admin/ADMIN-SETUP.md) — RBAC, models, MCP, dry-run
 
 ---
 
