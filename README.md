@@ -97,13 +97,23 @@ each participant must be signed in to Azure **and** have access to that project.
 **Participant** (covered above): `az login --use-device-code`, then set `FOUNDRY_PROJECT_ENDPOINT` in `.env`.
 
 **Facilitator / admin — do this *before* the workshop:**
-- Grant every attendee's workshop identity an RBAC role on the shared project
-  (e.g. **Azure AI User**) so their token can create/run agents.
+- Grant each attendee's workshop identity the **Foundry User** role (formerly *Azure AI User*;
+  role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`) on the shared Foundry resource, so their token
+  can build and run agents. **For a ~14-person cohort, per-attendee assignments are trivial — no
+  shared service principal needed.**
+- **Pre-deploy the models** (`model-router` + `gpt-5.4-mini`). Foundry User *cannot* deploy models
+  (that's *Manage models*), so participants reuse the central deployments.
+- **Pre-create any required connections** (e.g. an App Insights connection if you want the full Lab 3
+  *Traces* tab). Foundry User can't create connections — but the labs are designed so this isn't
+  needed: Lab 2 web search is "no setup required" and cross-run tracing is optional.
 - Share the project endpoint (`https://<account>.services.ai.azure.com/api/projects/<project>`)
   and the model deployment name.
-- **For a small cohort (~14): just grant per-attendee role assignments on the one shared
-  project** — it's quick and cleanest, no shared service principal needed. (Codespaces org
-  secrets / a service principal only become worth it at much larger scale.)
+
+> [!WARNING]
+> **Foundry User can't *Publish* agents.** Lab 5 Part B (hosted publish) needs **Foundry Project
+> Manager** at the Foundry resource scope, so it is **facilitator-demo-only** (also untestable
+> without a Teams/M365 license). Everything else in Labs 0–5 is a *data action* that Foundry User
+> permits. See the plan's **§12** RBAC table.
 
 See the plan's **§12 Pre-Workshop Setup** for the full checklist.
 

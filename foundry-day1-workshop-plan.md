@@ -441,7 +441,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 **Provided centrally (operator, day before):**
 - The shared Foundry project `ntfgh-carepal-workshop` on the **New Foundry** experience, with all participants added (Azure AD guests or a shared workshop login) and the `carepal-reference` agent pre-built.
 - Model deployments: `model-router` + `gpt-5.4-mini`, **Global Standard**, quota checked for ~14 concurrent users sharing one project (a small cohort — default TPM is usually ample; still confirm in the dry-run, see §13).
-- **RBAC (small cohort — do this by hand):** grant each of the ~14 attendee identities the **Azure AI User** role on the shared project so `DefaultAzureCredential` can create/run agents. At 14, per-attendee role assignments are trivial — no shared service principal needed.
+- **RBAC (small cohort — do this by hand):** grant each of the ~14 attendee identities the **Foundry User** role (formerly *Azure AI User*; role ID `53ca6127-db72-4b80-b1b0-d745d6d5456d`) on the shared Foundry resource so `DefaultAzureCredential` can build/run agents. At ~14, per-attendee assignments are trivial — no shared service principal needed. **Foundry User is data-plane only** — it can't deploy models, create connections, or *publish* agents; all are handled centrally (see the RBAC table below).
 - `healthhub-discharge-pack/` knowledge files; canned **test-prompt set**; mock **appointments MCP** server; starter notebooks (`lab1`–`lab4`) + SDK scaffolds; `azd` template for Lab 5.
 - **Current API stack (verified against the installed SDK):** `azure-ai-projects>=2.0.0` (new Foundry agents API — `create_version` + the Responses API), `openai>=2.8.0`, `azure-identity`, `azure-ai-evaluation`. **No classic Assistants / `azure-ai-agents`** — see `content/assets/requirements.txt`.
 - Workshop platform deployed (Vercel) with `workshop.yaml`, answer keys, `validate-keys` green.
@@ -452,6 +452,24 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 - 🔴 Engineer: above + VS Code, **Foundry Toolkit** extension, Python 3.10+, `azd`, repo cloned, `.env` from the provided template.
 
 **Access tiers de-risked:** if individual Azure access is uncertain, default to the **shared project + Navigator rail** so no one is blocked at 9am.
+
+### 12a. RBAC — what the **Foundry User** role covers (validated against [Foundry RBAC docs](https://learn.microsoft.com/azure/foundry/concepts/rbac-foundry))
+
+Participants get **Foundry User** (data-plane: build + run agents, file search, evaluations, inference, read). That is enough for almost the entire day. The few things it *cannot* do are all handled centrally by the admin/facilitator:
+
+| Lab | Action | Foundry User? | How it's handled |
+|-----|--------|:---:|------------------|
+| pre-req | Deploy `model-router` / `gpt-5.4-mini` | ❌ *Manage models* | **Admin pre-deploys**; participants reuse. |
+| 0–1 | Create agent, structured output, run prompts | ✅ data action | Works. |
+| 2 | **Bing web search** tool | ✅ "no setup required" | Built-in; no connection needed. |
+| 2 | File-search / upload HealthHub docs | ✅ data action | Works (vector store is a project data action). |
+| 3 | Guardrails, content safety, **inline** trace, dataset eval | ✅ data action | Works. |
+| 3 | Full **Traces** tab (history across runs) | ❌ needs **connection** | **Admin pre-creates** an App Insights connection, or skip — it's **optional**. |
+| 4 | Multi-agent / connected agents | ✅ data action | Works. |
+| 5A | Attach **MCP** tool + approval | ✅ data action | Works (MCP server is admin-deployed to ACA). |
+| 5B | **Publish / deploy hosted agent** | ❌ *Publish agents* | Needs **Foundry Project Manager** — **facilitator-demo-only** (also no Teams license). |
+
+> **Bottom line:** Foundry User is correct for all 14 participants. Pre-deploy the models, optionally pre-create an App Insights connection, and have the **facilitator hold Foundry Project Manager / Owner** to demo Lab 5 Part B. Use the role **ID** (not name) in scripts during the rename rollout: `az role assignment create --role 53ca6127-db72-4b80-b1b0-d745d6d5456d --assignee <upn> --scope <foundry-resource-id>`.
 
 ---
 

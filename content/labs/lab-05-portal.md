@@ -46,7 +46,9 @@ Top-right **Publish** → choose a channel: **Preview web app**, **Teams and Mic
 
 ![Publish menu](images/lab5-publish.png)
 
-> ⚠️ **Sandbox note.** The workshop tenant has **no Teams / Microsoft 365 license**, so the *Teams and Microsoft 365 Copilot* channel can be published but **not tested end-to-end** here. Just walk through the menu for awareness — use the **Preview web app** channel to actually try the published agent.
+> ⚠️ **Demo-only here — two independent reasons.**
+> 1. **RBAC:** publishing a hosted agent requires the **Foundry Project Manager** role. The **Foundry User** role participants hold can build and run agents but **not publish** — so the facilitator publishes from an account that has Project Manager / Owner.
+> 2. **No Teams license:** the workshop tenant has no Teams / Microsoft 365 license, so the *Teams and Microsoft 365 Copilot* channel can be published but **not tested end-to-end**. Use the **Preview web app** channel to actually try the published agent.
 
 Engineers can deploy as code via **VS Code Foundry Toolkit** (Code Remote) or **azd up**.
 
