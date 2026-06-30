@@ -101,9 +101,9 @@ each participant must be signed in to Azure **and** have access to that project.
   (e.g. **Azure AI User**) so their token can create/run agents.
 - Share the project endpoint (`https://<account>.services.ai.azure.com/api/projects/<project>`)
   and the model deployment name.
-- Decide the access model for ~20–40 people: **(a)** per-attendee role assignments on one shared
-  project, **(b)** a shared service principal injected via Codespaces secrets, or **(c)** a
-  project per attendee. (a) is cleanest; (b) is fastest to stand up.
+- **For a small cohort (~14): just grant per-attendee role assignments on the one shared
+  project** — it's quick and cleanest, no shared service principal needed. (Codespaces org
+  secrets / a service principal only become worth it at much larger scale.)
 
 See the plan's **§12 Pre-Workshop Setup** for the full checklist.
 

@@ -33,7 +33,7 @@
 - **Venue / client:** NTFGH (Ng Teng Fong General Hospital), Singapore — same Digital Think Tank audience as the companion Fabric day.
 - **Why Care Pal:** The customer has already prototyped a post-discharge care agent in Foundry. We don't invent a toy scenario — participants rebuild and extend *their own* use case, so every Foundry feature lands against something they recognise.
 - **Personas in the room:** Clinical informatics & clinicians, IT/digital leaders, data scientists/analysts, developers/SIs, strategy stakeholders. **Mixed technical depth is the defining constraint** — see §2.
-- **Expected participants:** 20–40.
+- **Expected participants:** ~14 (single cohort, one shared project).
 - **Outcome:** By 5:30pm every participant — regardless of coding ability — has personally built, grounded, governed, and observed a working Care Pal agent in Foundry, and seen it extended into a multi-agent system.
 
 ### 1.2 Learning Objectives
@@ -202,7 +202,7 @@ The morning's equaliser: every person in the room ships one agent. **All three r
 
 **Steps (Navigator rail — all click):**
 1. `https://ai.azure.com` → shared workshop project `ntfgh-carepal-workshop` → **+ New agent**.
-2. Name it `carepal-<yourinitials>` (e.g., `carepal-ac`) — the convention keeps 40 agents collision-free in the shared project, and your name appears on your certificate.
+2. Name it `carepal-<yourinitials>` (e.g., `carepal-ac`) — the convention keeps everyone's agents collision-free in the shared project, and your name appears on your certificate.
 3. Model: `gpt-5.4-mini` (or `model-router`).
 4. Paste the starter **Instructions** block (provided): identity, "not a doctor / call 995", synthetic-data consent, refuse diagnosis.
 5. **Chat** → send *"Hi"* → confirm it greets + asks consent.
@@ -419,7 +419,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 ## 11. Facilitator Guide & Run-of-Show
 
-**Roles:** 1 lead facilitator (drives concept + demos) · 1–2 floaters per 15 participants (rail support) · 1 platform operator (`/admin/runsheet`: unlock labs, push hints, extend time, advance leaderboard).
+**Roles:** 1 lead facilitator (drives concept + demos) · 1–2 floaters (rail support; ≈1 per 7 participants, so 2 is comfortable for a room of ~14) · 1 platform operator (`/admin/runsheet`: unlock labs, push hints, extend time, advance leaderboard).
 
 **Per-lab loop:** unlock lab → 5-min demo → start timer (portal time on screen) → floaters watch the **amber stuck rows** (≥3 failed attempts) → push a hint if a cluster is stuck → close lab → 2-min debrief tying the checkpoint back to the §3 Foundry layer.
 
@@ -436,11 +436,12 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 **Provisioning model (decided): one shared Foundry project** `ntfgh-carepal-workshop` for the whole room — simplest for a mixed/non-technical audience, single quota to manage, nothing to provision per person.
 
-> **Shared-project hygiene (important at 40 users):** everyone creates agents/resources in the *same* project, so enforce a **naming convention** to avoid collisions and make the leaderboard/certificate legible: `carepal-<yourinitials>` (e.g., `carepal-ac`). The operator pre-creates a **read-only reference agent** (`carepal-reference`) participants can clone, and the platform's certificate uses each participant's chosen agent name. Floaters keep an eye on the project's agent list for duplicates.
+> **Shared-project hygiene:** everyone creates agents/resources in the *same* project, so enforce a **naming convention** to avoid collisions and make the leaderboard/certificate legible: `carepal-<yourinitials>` (e.g., `carepal-ac`). The operator pre-creates a **read-only reference agent** (`carepal-reference`) participants can clone, and the platform's certificate uses each participant's chosen agent name. Floaters keep an eye on the project's agent list for duplicates.
 
 **Provided centrally (operator, day before):**
 - The shared Foundry project `ntfgh-carepal-workshop` on the **New Foundry** experience, with all participants added (Azure AD guests or a shared workshop login) and the `carepal-reference` agent pre-built.
-- Model deployments: `model-router` + `gpt-5.4-mini`, **Global Standard**, quota checked for 40 concurrent users sharing one project (watch tokens-per-minute limits — see §13).
+- Model deployments: `model-router` + `gpt-5.4-mini`, **Global Standard**, quota checked for ~14 concurrent users sharing one project (a small cohort — default TPM is usually ample; still confirm in the dry-run, see §13).
+- **RBAC (small cohort — do this by hand):** grant each of the ~14 attendee identities the **Azure AI User** role on the shared project so `DefaultAzureCredential` can create/run agents. At 14, per-attendee role assignments are trivial — no shared service principal needed.
 - `healthhub-discharge-pack/` knowledge files; canned **test-prompt set**; mock **appointments MCP** server; starter notebooks (`lab1`–`lab4`) + SDK scaffolds; `azd` template for Lab 5.
 - **Current API stack (verified against the installed SDK):** `azure-ai-projects>=2.0.0` (new Foundry agents API — `create_version` + the Responses API), `openai>=2.8.0`, `azure-identity`, `azure-ai-evaluation`. **No classic Assistants / `azure-ai-agents`** — see `content/assets/requirements.txt`.
 - Workshop platform deployed (Vercel) with `workshop.yaml`, answer keys, `validate-keys` green.
@@ -458,7 +459,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 | Risk | Mitigation / Fallback |
 |------|----------------------|
-| Azure access/quota not ready for 40 users | Shared project + Navigator rail; pre-create agents to clone; quota check in §12. |
+| Azure access/quota not ready for ~14 users | Shared project + Navigator rail; pre-create agents to clone; quota check in §12. Small cohort makes per-attendee RBAC quick. |
 | Mixed skill stalls the room | 3-rail model + pair-&-share + concept-only reflection cards. |
 | Lab 5 (deploy/MCP) too heavy for one day | Demo-for-everyone, hands-on only for 🔴; channel stretch is droppable. |
 | Non-deterministic agents break validation | Validate `route`/schema/citation, not prose (§9). |
@@ -466,7 +467,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 | Model name/feature drift before July | Default to `model-router`; confirm portal feature names (structured output, Workflows/multi-agent, guardrails) in a dry-run. |
 
 **Open questions for you (Antonia):**
-1. ~~**Provisioning model**~~ — ✅ **Decided: one shared project** (`ntfgh-carepal-workshop`); see §12 hygiene note. Remaining sub-risk: shared **tokens-per-minute** quota under 40 concurrent users — load-test the dry-run and raise quota if needed.
+1. ~~**Provisioning model**~~ — ✅ **Decided: one shared project** (`ntfgh-carepal-workshop`); see §12 hygiene note. With only ~14 concurrent users the shared **tokens-per-minute** quota is a low risk — sanity-check it in the dry-run and raise only if the room hits limits.
 2. **Audience split** — rough % non-technical vs developer? (Tunes how much of Lab 5 is live vs demo.)
 3. **Is the platform reuse approved** by your Fabric-day colleague (Eric), or should Lab content be channel-agnostic markdown only?
 4. **HealthHub content** — OK to bundle curated HealthHub PDFs as the RAG pack, or use a synthetic discharge-care doc set?
@@ -484,7 +485,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 **P0 — before build starts**
 - Confirm portal feature availability/names for **structured outputs**, **Workflows (multi-agent)**, **content-safety guardrails**, **evaluators** on the July build (dry-run in the real tenant).
-- Lock provisioning (shared vs per-pod) + quota for 40 concurrent users.
+- Lock provisioning (shared vs per-pod) + quota for ~14 concurrent users.
 - Finalise the **canned test-prompt set** + expected routes (it underpins all validation).
 
 **P1 — before go-live**

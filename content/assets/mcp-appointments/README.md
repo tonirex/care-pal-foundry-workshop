@@ -9,7 +9,7 @@ Gives Care Pal a **real tool** over the open **Model Context Protocol**, with
 | `list_slots(specialty, week_of="")` | returns 3 synthetic follow-up slots for the matched clinic |
 | `book_appointment(slot_id, patient_ref)` | returns a **mock** booking confirmation |
 
-**No authentication.** It's synthetic and meant to be pasted in by 40 people; the admin deploys
+**No authentication.** It's synthetic and meant to be pasted in by ~14 people; the admin deploys
 it once and shares the link.
 
 ## Admin: deploy once, share the link (before the workshop)
@@ -35,7 +35,7 @@ pip install -r requirements.txt
 python server.py                 # serves at http://0.0.0.0:8000/mcp
 ```
 Expose it publicly with a tunnel if attaching from the portal — `devtunnel host -p 8000` or VS Code
-**Ports → Forward a Port** (Public). The deployed URL is simpler for a room of 40.
+**Ports → Forward a Port** (Public). The deployed URL is simpler for a shared room.
 
 ## Attach to Care Pal in Foundry
 1. Agent → **Tools → MCP** (or SDK `MCPTool(server_label, server_url, require_approval)`), paste the
