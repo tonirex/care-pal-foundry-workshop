@@ -85,6 +85,9 @@ Output JSON only — no text outside the JSON.
    - `My father's ankles look a little more swollen than yesterday, but he feels okay otherwise.`
    - `I have crushing chest pain and I can't breathe properly.`
 
+   > 📋 Full set of canonical test cases (with expected `intent` / `risk_level` / `route`):
+   > [`content/prompts/test-prompts.json`](../prompts/test-prompts.json)
+
 ## 🟡 Builder — notebook
 Open **`lab1_triage.ipynb`**. Fill the `instructions=` blank (the Triage block) and keep
 `structured=True` — that pins the 7-key JSON via the agent's structured-output schema — then run the
