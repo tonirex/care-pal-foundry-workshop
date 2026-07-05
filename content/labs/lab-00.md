@@ -88,3 +88,10 @@ The check passes when the reply **refuses to diagnose** *and* **redirects to 995
   must be present — and **Save** before re-testing.
 - Ask the floating **Workshop Assistant** *how* to do a step. It won't give you the answer to paste,
   but it will unblock you.
+
+---
+
+### 🧭 Where next?
+🏁 **Start here** — 🏠 [Workshop flow & rails](../../README.md#how-the-workshop-flows) — Next: [Lab 1 · Triage Agent](lab-01.md) ➡️
+
+> 🟢 Prefer click-by-click screenshots? Use the **[Lab 0 portal walkthrough](lab-00-portal.md)** · all portal labs: [PORTAL-TRACK.md](PORTAL-TRACK.md)

@@ -59,14 +59,34 @@ merge any source_labels / source_urls from the specialists.
 5. Open the **trace** and confirm **both** specialists were called.
 
 ## 🟡 Builder — notebook
-Open **`lab4_multiagent.ipynb`**: define the agents, expose each specialist as a **function tool** the
-orchestrator calls (delegation), run the compound query, and print the call chain.
-*(Pattern: azure-ai-projects 2.x → `tools/sample_agent_function_tool.py` &
-`sample_workflow_multi_agent.py`.)*
+Open **`lab4_multiagent.ipynb`** and run it top to bottom — the markdown cells explain the orchestrator
++ two specialists, the function-tool loop, and a "three ways to orchestrate" comparison. It defines the
+agents, exposes each specialist as a **function tool** the orchestrator calls (delegation), runs the
+compound query, **logs each hand-off**, and prints the synthesised reply and the tool-call chain.
+
+**Under the hood:** the specialists are exposed with `function_tool(...)` (a `FunctionTool` on the
+orchestrator's definition). `run_with_trace(...)` runs the model, catches each `function_call` Foundry
+emits, invokes the matching specialist, and feeds the result back with `previous_response_id` until the
+orchestrator returns one merged JSON.
+
+📚 **Docs:** [Function calling / tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling) ·
+[Connected agents (multi-agent)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/connected-agents) ·
+samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_function_tool.py), [`sample_workflow_multi_agent.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_workflow_multi_agent.py)
 
 ## 🔴 Engineer — SDK
-Complete **`lab4_multiagent.py`**: expose the two specialists as function tools, delegate from the
-orchestrator, and `assert` that the compound query produces **≥2** specialist tool-calls.
+Run **`lab4_multiagent.py`** and fill the `# 👉` lines. The goal: build one **orchestrator** + two
+**specialist** agents, expose the specialists as function tools, and `assert` the compound query
+produces **≥2** specialist tool-calls.
+
+**The SDK flow:**
+1. **Create three agents** — `education` (triage-structured + file search) and `followup` (plain) are
+   separate agent versions; the `orchestrator` gets the delegation instructions **and** both tools.
+2. **Declare the tools** — `function_tool("ask_education", …)` / `function_tool("ask_followup", …)`
+   are `FunctionTool` declarations passed in `tools=[...]`. The `functions={}` dict maps each tool name
+   to a Python handler that forwards the question to the matching specialist (`run_text`).
+3. **Run the loop** — `run_with_trace(...)` is a manual function-tool loop: it runs the orchestrator,
+   and whenever Foundry emits a `function_call` it invokes your handler and continues the response with
+   `previous_response_id`. `trace.tool_calls` records which specialists fired — that's what you assert.
 
 ```python
 # specialists exposed as function tools; handlers forward each question to a specialist agent
@@ -79,6 +99,13 @@ assert len(specialist_calls) >= 2, [c.name for c in trace.tool_calls]
 ```
 > **Go further (Engineer):** re-implement as a **Workflow agent** (`WorkflowAgentDefinition`) or with
 > the **Microsoft Agent Framework** (`FoundryChatClient` + workflows) for code-first orchestration.
+> The notebook's "Three ways to orchestrate" table compares function tools vs. Workflow agents vs. the
+> Agent Framework, and *when* to pick each.
+
+📚 **Docs:** [Function calling / tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling) ·
+[Connected agents (multi-agent)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/connected-agents) ·
+[Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/) ·
+samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_function_tool.py), [`sample_workflow_multi_agent.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_workflow_multi_agent.py)
 
 ---
 
@@ -95,3 +122,10 @@ Add a **third** specialist — **Assessment** (monitors / tracks symptoms) or **
 - Only one specialist fires? Make the routing rule explicit and ensure **both** specialists are
   attached as connected tools on the orchestrator.
 - Specialists loop or over-call? Add "Call only the specialists needed" and cap with the routing rule.
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 3 · Govern & Observe](lab-03.md) — 🏠 [Workshop flow & rails](../../README.md#how-the-workshop-flows) — Next: [Lab 5 · Extend & Deploy](lab-05.md) ➡️
+
+> 🟢 **Navigator?** Screenshot walkthrough for this lab: **[lab-04-portal.md](lab-04-portal.md)** · index: [PORTAL-TRACK.md](PORTAL-TRACK.md)

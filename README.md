@@ -26,6 +26,36 @@ go deeper in notebooks and Python.
 
 ---
 
+## How the workshop flows
+
+Everyone builds the **same** Care Pal agent across **six labs, done in order (Lab 0 → Lab 5)**. Each lab
+builds on the last, so don't skip ahead. **Start at Lab 0** — the morning equaliser everyone does in the
+portal — then continue through Labs 1–5.
+
+From Lab 1 on, every lab is **rail-tabbed**: one page with a 🟢 Navigator, 🟡 Builder, and 🔴 Engineer
+section. **Pick the rail that fits you and follow just that section** — you can switch rails between labs.
+
+| Lab | Title | What you build |
+|-----|-------|----------------|
+| [Lab 0](content/labs/lab-00.md) | Hello, Care Pal | Your first safe agent (portal, all rails) |
+| [Lab 1](content/labs/lab-01.md) | Triage Agent | Structured 7-key JSON + risk routing |
+| [Lab 2](content/labs/lab-02.md) | Knowledge & Grounding | RAG over HealthHub, with citations |
+| [Lab 3](content/labs/lab-03.md) | Govern & Observe | Guardrails + evaluation |
+| [Lab 4](content/labs/lab-04.md) | Multi-Agent Care Pal | Orchestrator + specialists |
+| [Lab 5](content/labs/lab-05.md) | Extend & Deploy | MCP tool + hosted agent (Engineer hands-on, everyone watches) |
+
+**Two ways to read a lab:**
+- **🟡 Builder / 🔴 Engineer** — use the rail-tabbed pages above (`lab-0N.md`); open the matching
+  notebook (`content/assets/lab1_triage.ipynb`, Run All) or run the script (`python content/assets/lab1_triage.py`).
+- **🟢 Navigator (no-code)** — use the same rail-tabbed pages, *or* the picture-heavy **screenshot
+  walkthroughs** in the [Portal track](content/labs/PORTAL-TRACK.md) (`lab-0N-portal.md`). Same checkpoints.
+
+**Moving between labs:** every lab page ends with a **🧭 Where next?** footer that links the previous and
+next lab (and the matching portal/rail-tabbed version), so you can walk the whole workshop start to finish
+without hunting for the next file.
+
+---
+
 ## Quick start — 🟡 Builder / 🔴 Engineer
 
 ### Option A · GitHub Codespaces (recommended)

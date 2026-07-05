@@ -61,3 +61,10 @@ Paste reply + trace showing ≥2 specialist nodes ran, covering both topics. (30
 
 ## 🎁 Bonus (+50)
 Add a 3rd specialist (Assessment or Enrollment) and show it firing on a fitting question.
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 3 · Govern & Observe (Portal)](lab-03-portal.md) — 🏠 [Portal track index](PORTAL-TRACK.md) — Next: [Lab 5 · Extend & Deploy (Portal)](lab-05-portal.md) ➡️
+
+> 🟡🔴 On the notebook/SDK rail? See the full rail-tabbed lab: **[lab-04.md](lab-04.md)**.

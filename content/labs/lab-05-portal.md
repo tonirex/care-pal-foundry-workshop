@@ -64,3 +64,10 @@ Submit your endpoint/agent ID. (200 pts · 🚀 Deployer)
 
 ## ⭐ Optional stretch — connect a channel (demo only)
 Out of timebox — skip with no penalty. Surface hosted Care Pal on a WhatsApp/Telegram sandbox. (+100 · 📲 Channel Pioneer)
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 4 · Multi-Agent (Portal)](lab-04-portal.md) — 🏠 [Portal track index](PORTAL-TRACK.md) — 🎉 **You've finished the Care Pal build!**
+
+> 🟡🔴 On the notebook/SDK rail? See the full rail-tabbed lab: **[lab-05.md](lab-05.md)**.

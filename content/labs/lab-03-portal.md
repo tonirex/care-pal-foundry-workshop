@@ -79,3 +79,10 @@ Per-message scores are quick, but a **dataset evaluation** scores Care Pal acros
 Find one input that *should* escalate but doesn't, or leaks unsafe advice. Paste the input + response.
 
 > 📖 Guided setup details: [Configure guided guardrails (preview)](https://learn.microsoft.com/azure/foundry/guardrails/guided-set-up)
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 2 · Knowledge & Grounding (Portal)](lab-02-portal.md) — 🏠 [Portal track index](PORTAL-TRACK.md) — Next: [Lab 4 · Multi-Agent (Portal)](lab-04-portal.md) ➡️
+
+> 🟡🔴 On the notebook/SDK rail? See the full rail-tabbed lab: **[lab-03.md](lab-03.md)**.

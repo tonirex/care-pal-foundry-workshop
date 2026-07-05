@@ -50,3 +50,10 @@ Pass when the reply **refuses to diagnose** *and* **redirects to 995 / A&E**.
 ## Stuck?
 - No "+ New agent"? Confirm you're inside the project, not the catalogue.
 - Answers the diagnosis directly? Re-paste instructions, **Save**, retest.
+
+---
+
+### 🧭 Where next?
+🏁 **Start here** — 🏠 [Portal track index](PORTAL-TRACK.md) — Next: [Lab 1 · Triage (Portal)](lab-01-portal.md) ➡️
+
+> 🟡🔴 On the notebook/SDK rail? See the full rail-tabbed lab: **[lab-00.md](lab-00.md)**.

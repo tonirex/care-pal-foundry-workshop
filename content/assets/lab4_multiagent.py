@@ -36,6 +36,7 @@ from common.carepal_common import (
     cleanup,
     TRIAGE_INSTRUCTIONS,
 )
+import json
 
 ORCHESTRATOR = TRIAGE_INSTRUCTIONS + """
 You are Care Pal's orchestrator. Triage first. For LOW-risk paths, delegate then synthesise ONE reply:
@@ -82,9 +83,23 @@ def main():
     ]
 
     # Handlers: each forwards the question to its specialist agent and returns the text.
+    # We wrap them in a small logger so you can SEE the hand-off (the question the
+    # orchestrator forwarded and the specialist's reply), not just the tool names.
+    # `handoffs` also keeps a structured record you can inspect afterwards.
+    handoffs = []
+
+    def _delegate(tool_name, specialist):
+        def handler(question):
+            reply = run_text(specialist, question)
+            handoffs.append({"tool": tool_name, "question": question, "reply": reply})
+            print(f"\n─── {tool_name}  ▸ orchestrator asked ───\n{question}")
+            print(f"─── {tool_name}  ◂ specialist replied ───\n{reply}")
+            return reply
+        return handler
+
     functions = {
-        "ask_education": lambda question: run_text(education, question),
-        "ask_followup": lambda question: run_text(followup, question),
+        "ask_education": _delegate("ask_education", education),
+        "ask_followup": _delegate("ask_followup", followup),
     }
 
     orchestrator = make_triage_agent(
@@ -97,9 +112,14 @@ def main():
         out, trace = run_with_trace(orchestrator, text_of("follow_up_and_diet"), functions=functions)
         called = [c.name for c in trace.tool_calls]
         specialist = [c for c in trace.tool_calls if c.name in ("ask_education", "ask_followup")]
-        print("tool calls:", called)
+        print("\ntool calls:", called)
         assert len(specialist) >= 2, f"expected >=2 specialist calls, got {called}"
-        print("Lab 4 passed ✅")
+
+        # The orchestrator MERGES both specialist replies into one triage JSON - print it so you
+        # can see the synthesised, single answer the user would actually receive.
+        print("\n=== Orchestrator's final merged reply (synthesised from both specialists) ===")
+        print(json.dumps(out, indent=2))
+        print("\nLab 4 passed ✅")
 
         # TODO (bonus): add a third specialist (Assessment or Enrollment & Linkage) and show it firing.
         # GO FURTHER (Engineer): re-implement this as a Workflow agent (WorkflowAgentDefinition,

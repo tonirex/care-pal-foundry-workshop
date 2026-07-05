@@ -35,3 +35,10 @@ Paste the JSON for the chest-pain message → all **7 keys** present and
 
 ## 🎁 Bonus (+50)
 Show "take water pill in the morning?" routes to `timely_review` (medication_question).
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 0 · Hello, Care Pal (Portal)](lab-00-portal.md) — 🏠 [Portal track index](PORTAL-TRACK.md) — Next: [Lab 2 · Knowledge & Grounding (Portal)](lab-02-portal.md) ➡️
+
+> 🟡🔴 On the notebook/SDK rail? See the full rail-tabbed lab: **[lab-01.md](lab-01.md)**.

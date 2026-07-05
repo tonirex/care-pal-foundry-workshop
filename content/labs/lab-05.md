@@ -43,6 +43,10 @@ follow-up slot — with **human-in-the-loop approval** before it "books".
 
 *(Pattern: azure-ai-projects 2.x → `samples/agents/tools/sample_agent_mcp.py`.)*
 
+📚 **Docs:** [Model Context Protocol (MCP) tool](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/model-context-protocol) ·
+[MCP specification](https://modelcontextprotocol.io/) ·
+sample: [`sample_agent_mcp.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_mcp.py)
+
 ## Part B — Deploy a hosted agent (🔴 hands-on, ~15 min)
 Deploy Care Pal to **Foundry Agent Service** as a hosted agent.
 
@@ -52,6 +56,10 @@ Deploy Care Pal to **Foundry Agent Service** as a hosted agent.
 
 Then call the deployed agent from the **Agent Inspector / Call agent** and confirm it returns a valid
 triage JSON. *(Pattern: Foundry-Agent-Lab → `hosted-demo`; agentic-ai-immersion → Deployment / azd.)*
+
+📚 **Docs:** [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview) ·
+[Azure Developer CLI (`azd`)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/) ·
+[`azd up`](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/reference#azd-up)
 
 ---
 
@@ -73,3 +81,10 @@ front-end. **(+100 stretch · badge 📲 Channel Pioneer)**
 - MCP tool not appearing? Confirm the server is running and the agent lists it under **Tools**.
 - Deploy fails on dependencies? Use **Code (Remote)** so Azure installs from `requirements.txt`.
 - Short on time? Stop after Part A — Part B can be the closing facilitator demo.
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 4 · Multi-Agent Care Pal](lab-04.md) — 🏠 [Workshop flow & rails](../../README.md#how-the-workshop-flows) — 🎉 **You've finished the Care Pal build!**
+
+> 🟢 Navigator screenshot version of this demo: **[lab-05-portal.md](lab-05-portal.md)** · all portal labs: [PORTAL-TRACK.md](PORTAL-TRACK.md)

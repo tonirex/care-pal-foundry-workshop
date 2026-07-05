@@ -89,15 +89,34 @@ Output JSON only — no text outside the JSON.
    > [`content/prompts/test-prompts.json`](../prompts/test-prompts.json)
 
 ## 🟡 Builder — notebook
-Open **`lab1_triage.ipynb`**. Fill the `instructions=` blank (the Triage block) and keep
-`structured=True` — that pins the 7-key JSON via the agent's structured-output schema — then run the
-cell that loops the three test messages and prints each `route`.
-*(Pattern: azure-ai-projects 2.x → `samples/agents/sample_agent_structured_output.py`.)*
+Open **`lab1_triage.ipynb`** and run it top to bottom. Every cell has an inline markdown explanation of
+what it does and how it maps to Foundry, so the notebook *is* your detailed guide. You fill the
+`instructions=` blank (the Triage block) and keep `structured=True` — that pins the 7-key JSON via the
+agent's **structured-output schema** — then the last cell loops the three test messages and checks each
+`route`.
+
+**Under the hood** (the notebook's Cell 2/3 markdown breaks this down): `make_triage_agent(structured=True)`
+calls `project.agents.create_version(...)` with a `PromptAgentDefinition` (model + instructions + a
+`text=` JSON schema), then runs it through the OpenAI-compatible client
+(`project.get_openai_client().responses.create(...)`).
+
+📚 **Docs:** [What is Foundry Agent Service?](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/overview) ·
+[Foundry SDK overview](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/sdk-overview) ·
+sample: `azure-ai-projects` 2.x → [`sample_agent_structured_output.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agent_structured_output.py)
 
 ## 🔴 Engineer — SDK
-Complete **`lab1_triage.py`**: create the agent with a JSON-schema for structured output, then
-`assert` the route for all three inputs. *(Pattern: prompt-agent quickstart + structured output via
-`PromptAgentDefinition.text`.)*
+Run **`lab1_triage.py`** (`python lab1_triage.py` from `assets/`), then open it and fill the `# 👉`
+lines. The goal: create a versioned agent whose **structured-output schema** forces the 7-key JSON,
+then `assert` the route for all three inputs.
+
+**The SDK flow (three calls):**
+1. **Authenticate & connect** — `AIProjectClient(endpoint=..., credential=DefaultAzureCredential())`
+   points at the shared project (`az login` supplies the credential).
+2. **Define + version the agent** — `project.agents.create_version(agent_name, definition=PromptAgentDefinition(...))`.
+   `PromptAgentDefinition` is the agent's config: `model`, `instructions`, and `text=` for structured
+   output. Foundry stores it as a new **version** of `carepal-<initials>` — the same object the portal edits.
+3. **Run it** — `project.get_openai_client().responses.create(input=..., extra_body={"agent_reference": {...}})`,
+   then read `resp.output_text`. `run_and_parse()` in `common/carepal_common.py` wraps steps 2–3.
 
 ```python
 # excerpt — fill the TODOs (this is what make_triage_agent(structured=True) does under the hood)
@@ -121,6 +140,11 @@ for pid in ["diet_question", "swelling_worsening", "chest_pain"]:
     assert out["route"] == PROMPTS[pid]["expected"]["route"], out
 ```
 
+📚 **Docs:** [Foundry Agent Service quickstart](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/quickstart) ·
+[Foundry SDK overview](https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/develop/sdk-overview) ·
+[`azure-ai-projects` on PyPI](https://pypi.org/project/azure-ai-projects/) ·
+sample: [`sample_agent_structured_output.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agent_structured_output.py)
+
 ---
 
 ## ✅ Validation
@@ -137,3 +161,10 @@ pill in the morning instead of at night?"* routes to `timely_review`.
   "Output JSON only".
 - `swelling` keeps going to `immediate_escalation`? Your red-flag list is too broad — swelling alone,
   patient "okay otherwise", is **medium / timely_review**.
+
+---
+
+### 🧭 Where next?
+⬅️ Previous: [Lab 0 · Hello, Care Pal](lab-00.md) — 🏠 [Workshop flow & rails](../../README.md#how-the-workshop-flows) — Next: [Lab 2 · Knowledge & Grounding](lab-02.md) ➡️
+
+> 🟢 **Navigator?** Screenshot walkthrough for this lab: **[lab-01-portal.md](lab-01-portal.md)** · index: [PORTAL-TRACK.md](PORTAL-TRACK.md)
