@@ -18,7 +18,15 @@ content/
     lab1_triage.* ... lab4_multiagent.* #   paired .py (Engineer) + .ipynb (Builder)
     mcp-appointments/                   #   Lab 5 Part A — mock appointments MCP server
     hosted-deploy/                      #   Lab 5 Part B — hosted-agent deploy scaffold (azd / VS Code)
+  demos/foundry-iq-wound-care/          # ⭐ standalone Foundry IQ demo (NOT a graded lab)
 ```
+
+## Extra demos (not graded labs)
+Standalone, facilitator-led spotlights that sit outside Labs 0–5 (no points, no validator, not in
+`config/workshop.yaml`).
+- **[demos/foundry-iq-wound-care/](demos/foundry-iq-wound-care/README.md)** — grounds a wound-care
+  agent on a **Foundry IQ** knowledge base (3 curated `.docx`) so its advice comes only from trusted
+  sources, not the model's own knowledge or the web. Adapts Microsoft Learn exercise 04.
 
 ## Portal-only track
 Non-technical participants can stay in the Foundry portal. Screenshot walkthroughs:

@@ -168,6 +168,7 @@ full checklist.
     │   ├── mcp-appointments/        ←   Lab 5 Part A — mock appointments MCP server (deployed to ACA)
     │   └── hosted-deploy/           ←   Lab 5 Part B — hosted-agent deploy scaffold
     ├── knowledge/                   ← RAG grounding docs for Lab 2/4 (HealthHub pack)
+    ├── demos/foundry-iq-wound-care/ ← ⭐ standalone Foundry IQ demo (not a graded lab)
     ├── prompts/test-prompts.json    ← single source of truth for canned prompts + expected routes
     ├── narrative/rajan.md           ← the patient story, one chapter per lab
     └── answer-keys/                 ← SERVER-SIDE validators — never ship to participants
