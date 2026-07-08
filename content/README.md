@@ -1,12 +1,12 @@
 # Care Pal Foundry Day — workshop content
 
 Loadable content for *From Discharge to Recovery: Building Patient-Care Agents with Microsoft Foundry*.
-Authored from `../foundry-day1-workshop-plan.md`. Designed to drop into the Fabric-day gamified
+Authored from `../foundry-day1-workshop-plan.md`. Designed to drop into the Fabric-day workshop
 platform (Next.js + Supabase) with only a config + validator delta.
 
 ```
 content/
-  config/workshop.yaml                  # platform config (shared project, rails, labs, badges)
+  config/workshop.yaml                  # platform config (shared project, rails, labs)
   admin/ADMIN-SETUP.md                  # admin & pre-workshop logistics (RBAC script, models, MCP, dry-run)
   narrative/rajan.md                    # patient story — one chapter per lab
   prompts/test-prompts.json             # SINGLE SOURCE OF TRUTH for canned prompts + expected routes
@@ -18,11 +18,11 @@ content/
     lab1_triage.* ... lab4_multiagent.* #   paired .py (Engineer) + .ipynb (Builder)
     mcp-appointments/                   #   Lab 5 Part A — mock appointments MCP server
     hosted-deploy/                      #   Lab 5 Part B — hosted-agent deploy scaffold (azd / VS Code)
-  demos/foundry-iq-wound-care/          # ⭐ standalone Foundry IQ demo (NOT a graded lab)
+  demos/foundry-iq-wound-care/          # ⭐ standalone Foundry IQ demo (NOT a core lab)
 ```
 
-## Extra demos (not graded labs)
-Standalone, facilitator-led spotlights that sit outside Labs 0–5 (no points, no validator, not in
+## Extra demos (not core labs)
+Standalone, facilitator-led spotlights that sit outside Labs 0–5 (no validator, not in
 `config/workshop.yaml`).
 - **[demos/foundry-iq-wound-care/](demos/foundry-iq-wound-care/README.md)** — grounds a wound-care
   agent on a **Foundry IQ** knowledge base (3 curated `.docx`) so its advice comes only from trusted

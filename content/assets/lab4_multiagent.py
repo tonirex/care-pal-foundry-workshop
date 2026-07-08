@@ -10,6 +10,8 @@ ways to do multi-agent are:
   - the A2A tool (A2APreviewTool) for cross-project / external agents
 See the "GO FURTHER" note at the bottom. Run:  `python lab4_multiagent.py`
 
+Lab instructions: ../labs/lab-04.md (all three rails) · portal walkthrough: ../labs/lab-04-portal.md
+
 Reference patterns: azure-ai-projects 2.x -> tools/sample_agent_function_tool.py and
 sample_workflow_multi_agent.py; agent-framework -> workflows (code-first option).
 """

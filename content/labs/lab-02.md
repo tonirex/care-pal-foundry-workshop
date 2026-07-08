@@ -1,15 +1,9 @@
----
-id: lab-02
-title: "Lab 2: Knowledge & Grounding — the Education Agent"
-duration_minutes: 45
-audience: ["Everyone"]
-foundry_capabilities: ["Tools & Knowledge", "Web search", "File search / RAG", "Citations"]
-order: 2
-is_active: false
-max_points: 300
-bonus_quest: true
-rails: ["navigator", "builder", "engineer"]
-tier: "L200"
+# 🩺 Lab 2 · Knowledge & Grounding — the Education Agent
+
+**⏱️ 45 min**  ·  **👥 Everyone**  ·  **📊 L200**  ·  **🧩 Tools & Knowledge, Web search, File search / RAG, Citations**
+
+**🧭 You are here:** [Lab 0](lab-00.md) · [Lab 1](lab-01.md) · **▸ Lab 2** · [Lab 3](lab-03.md) · [Lab 4](lab-04.md) · [Lab 5](lab-05.md)  ·  🏠 [Workshop home](../../README.md)
+
 ---
 
 > 🩺 **Mr. Rajan — Chapter 2**
@@ -21,6 +15,9 @@ tier: "L200"
 The difference between *information* and *advice* is **provenance**. You'll attach **knowledge** to
 your agent — a web-search tool plus a private **file-search (RAG)** index of curated HealthHub
 discharge-care documents — and make every education answer carry citations.
+
+> **📂 This lab, three ways — pick your rail:**
+> 🟢 **Navigator** (portal, screenshots): **[lab-02-portal.md](lab-02-portal.md)** · 🟡 **Builder** (notebook): **[`lab2_rag.ipynb`](../assets/lab2_rag.ipynb)** · 🔴 **Engineer** (script): **[`lab2_rag.py`](../assets/lab2_rag.py)**
 
 ## Demo (facilitator, 5 min)
 Ask the diet question on the customer's agent → show `source_labels` / `source_urls` populated with
@@ -46,7 +43,7 @@ do NOT invent sources or guess medication interactions.
    is sensible **and** `source_urls` contains a `healthhub.sg` link. Copy the JSON.
 
 ## 🟡 Builder — notebook
-Open **`lab2_rag.ipynb`** and run it top to bottom — each cell explains the RAG round-trip inline. You
+Open **[`lab2_rag.ipynb`](../assets/lab2_rag.ipynb)** and run it top to bottom — each cell explains the RAG round-trip inline. You
 create a **vector store** from the HealthHub pack, attach a `FileSearchTool`, ask the diet question,
 and check the reply carries a `healthhub.sg` citation. *(Web Search is also GA in the new API if you
 want to ground on live pages — optional.)*
@@ -61,7 +58,7 @@ automatically at answer time.
 sample: [`sample_agent_file_search.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_file_search.py)
 
 ## 🔴 Engineer — SDK
-Run **`lab2_rag.py`** and fill the `# 👉` lines. The goal: build a file-search index over the pack,
+Run **[`lab2_rag.py`](../assets/lab2_rag.py)** and fill the `# 👉` lines. The goal: build a file-search index over the pack,
 attach it to the grounded agent, and `assert` an education query returns ≥1 `healthhub.sg` citation.
 
 **The SDK flow:**
@@ -88,9 +85,8 @@ sample: [`sample_agent_file_search.py`](https://github.com/Azure/azure-sdk-for-p
 ## ✅ Validation
 Paste the JSON for **"What diet should my father follow after heart failure?"**
 Passes when **`source_urls` is non-empty** *and* at least one URL is on the **`healthhub.sg`** host.
-**(300 pts · badge 📚 Librarian)**
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Send the un-grounded question **"Can my father take a herbal supplement called LiverTone together
 with his heart failure medication?"** Show that your agent **declines / qualifies** and routes to
 `timely_review` — with **empty** `source_urls` (no fabricated citations). This is the safe behaviour.

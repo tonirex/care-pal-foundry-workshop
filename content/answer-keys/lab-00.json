@@ -1,12 +1,10 @@
 {
   "_comment": "SERVER-SIDE ONLY. Load only in app/api/. Never import into client code or place under public/. Lab 0 = Hello Care Pal: no structured output yet, validate the safety reflex on a plain reply.",
   "lab_id": "lab-00",
-  "max_points": 100,
   "validation_mode": "paste_output",
   "tasks": {
     "task-1": {
       "title": "Care Pal refuses to diagnose and redirects to emergency care",
-      "points": 100,
       "validator": "text_regex",
       "prompt_id": "diagnosis_request",
       "input_kind": "reply_text",

@@ -1,15 +1,9 @@
----
-id: lab-04
-title: "Lab 4: Multi-Agent Care Pal — Orchestration"
-duration_minutes: 50
-audience: ["Everyone (builders & engineers go deeper)"]
-foundry_capabilities: ["Multi-agent orchestration", "Workflows", "Function tools"]
-order: 4
-is_active: false
-max_points: 300
-bonus_quest: true
-rails: ["navigator", "builder", "engineer"]
-tier: "L300"
+# 🩺 Lab 4 · Multi-Agent Care Pal — Orchestration
+
+**⏱️ 50 min**  ·  **👥 Everyone (builders & engineers go deeper)**  ·  **📊 L300**  ·  **🧩 Multi-agent orchestration, Workflows, Function tools**
+
+**🧭 You are here:** [Lab 0](lab-00.md) · [Lab 1](lab-01.md) · [Lab 2](lab-02.md) · [Lab 3](lab-03.md) · **▸ Lab 4** · [Lab 5](lab-05.md)  ·  🏠 [Workshop home](../../README.md)
+
 ---
 
 > 🩺 **Mr. Rajan — Chapter 4**
@@ -23,8 +17,11 @@ Education, Assessment, Follow-Up, Enrollment). You'll turn your triage agent int
 that delegates the LOW-risk path to specialists and synthesises their results — Foundry's
 **connected / multi-agent** pattern.
 
+> **📂 This lab, three ways — pick your rail:**
+> 🟢 **Navigator** (portal, screenshots): **[lab-04-portal.md](lab-04-portal.md)** · 🟡 **Builder** (notebook): **[`lab4_multiagent.ipynb`](../assets/lab4_multiagent.ipynb)** · 🔴 **Engineer** (script): **[`lab4_multiagent.py`](../assets/lab4_multiagent.py)**
+
 > Required today: **Education** + **Follow-Up** (plus your triage orchestrator). Navigation /
-> Assessment / Enrollment are the bonus.
+> Assessment / Enrollment are optional extras.
 
 ## Demo (facilitator, 5 min)
 Send the compound question on a prepared orchestrator → walk the **trace**: orchestrator → Follow-Up
@@ -59,7 +56,7 @@ merge any source_labels / source_urls from the specialists.
 5. Open the **trace** and confirm **both** specialists were called.
 
 ## 🟡 Builder — notebook
-Open **`lab4_multiagent.ipynb`** and run it top to bottom — the markdown cells explain the orchestrator
+Open **[`lab4_multiagent.ipynb`](../assets/lab4_multiagent.ipynb)** and run it top to bottom — the markdown cells explain the orchestrator
 + two specialists, the function-tool loop, and a "three ways to orchestrate" comparison. It defines the
 agents, exposes each specialist as a **function tool** the orchestrator calls (delegation), runs the
 compound query, **logs each hand-off**, and prints the synthesised reply and the tool-call chain.
@@ -74,7 +71,7 @@ orchestrator returns one merged JSON.
 samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_function_tool.py), [`sample_workflow_multi_agent.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_workflow_multi_agent.py)
 
 ## 🔴 Engineer — SDK
-Run **`lab4_multiagent.py`** and fill the `# 👉` lines. The goal: build one **orchestrator** + two
+Run **[`lab4_multiagent.py`](../assets/lab4_multiagent.py)** and fill the `# 👉` lines. The goal: build one **orchestrator** + two
 **specialist** agents, expose the specialists as function tools, and `assert` the compound query
 produces **≥2** specialist tool-calls.
 
@@ -112,9 +109,9 @@ samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-fo
 ## ✅ Validation
 Paste the orchestrator's reply **and** a screenshot (or `tool_calls` count) from the trace.
 Passes when the compound query invoked **≥2 specialist agents** and the reply addresses both
-appointments and diet. **(300 pts · badge 🎛️ Orchestrator)**
+appointments and diet.
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Add a **third** specialist — **Assessment** (monitors / tracks symptoms) or **Enrollment & Linkage**
 (explains programs, checks eligibility) — and show it firing on an appropriate question.
 

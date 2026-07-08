@@ -16,7 +16,7 @@ preserved) and records its **source URL** inside the document so the agent can c
 | `slh-wound-care-treatment.docx` | Wound Care Treatment in Singapore: How to Heal Faster and Avoid Complications | https://www.slh.org.sg/wound-care-treatment-in-singapore-how-to-heal-faster-and-avoid-complications/ | slh.org.sg |
 | `slh-managing-chronic-wounds.docx` | Managing Chronic Wounds (Caring for Chronic Wounds) | https://www.slh.org.sg/managing-chronic-wounds/ | slh.org.sg |
 
-## Allow-list hosts (for graded labs' validators, if reused)
+## Allow-list hosts (for lab validators, if reused)
 `healthhub.sg`, `www.healthhub.sg`, `slh.org.sg`, `www.slh.org.sg`
 
 ## Regenerate / edit the documents

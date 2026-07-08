@@ -1,14 +1,11 @@
 {
   "_comment": "SERVER-SIDE ONLY. Load only in app/api/. Lab 4 = Multi-Agent orchestration. Validated from the trace: the compound query must fan out to >=2 specialists and the reply must cover BOTH appointments and diet. prompt_ids resolve against content/prompts/test-prompts.json.",
   "lab_id": "lab-04",
-  "max_points": 300,
-  "bonus_points": 50,
   "validation_mode": "paste_output_plus_trace",
   "schema_ref": "content/answer-keys/_schema.json",
   "tasks": {
     "task-1": {
       "title": "Compound query fans out to >=2 specialists",
-      "points": 300,
       "validator": "trace_specialists",
       "prompt_id": "follow_up_and_diet",
       "expect": {
@@ -25,9 +22,8 @@
       "correct_fun_fact": "Specialisation beats one giant prompt — small focused agents are easier to test, ground, and trust."
     }
   },
-  "bonus": {
+  "optional_challenge": {
     "title": "Add a third specialist (Assessment or Enrollment & Linkage)",
-    "points": 50,
     "validator": "facilitator",
     "rationale": "Participant shows a third specialist firing on an appropriate question (symptom tracking, or program eligibility). Maps to the customer's 5-agent architecture.",
     "correct_fun_fact": "You just rebuilt the shape of the customer's real Care Pal — five cooperating agents behind one friendly chat."
