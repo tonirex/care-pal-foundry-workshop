@@ -27,8 +27,8 @@ HealthHub links. Then ask something the pack doesn't cover and show it *declines
 
 ## 🟢 Navigator — portal
 1. Open your `carepal-<initials>` agent → **Tools** → add **Web search**.
-2. **Knowledge** (or **Add → Upload files**) → upload the provided **`healthhub-discharge-pack/`**
-   (heart / kidney / liver self-care docs). This creates a **file-search** index.
+2. Under **Tools** → **Upload files** → in the **Attach files** dialog, **create a new index** and add the provided
+   **`healthhub-discharge-pack/`** (heart / kidney / liver self-care docs). This creates a **file-search** index.
 3. Add this paragraph to your Instructions (keep everything from Lab 1):
 
 ```text
