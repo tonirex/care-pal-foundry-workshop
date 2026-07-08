@@ -58,12 +58,12 @@ Engineers can deploy as code via **VS Code Foundry Toolkit** (Code Remote) or **
 ![Call agent endpoint + SDK](images/lab5-call-agent.png)
 
 ## ✅ Validation
-Submit your endpoint/agent ID. (200 pts · 🚀 Deployer)
+Submit your endpoint/agent ID.
 
-> **Navigator/Builder reflection (100 pts):** (1) What does MCP give an agent? (2) Why deploy vs playground? (3) One Care Pal task you'd give a real tool. (4) What should always need approval? (5) Rate 1–5.
+> **Navigator/Builder reflection:** (1) What does MCP give an agent? (2) Why deploy vs playground? (3) One Care Pal task you'd give a real tool. (4) What should always need approval? (5) Rate 1–5.
 
 ## ⭐ Optional stretch — connect a channel (demo only)
-Out of timebox — skip with no penalty. Surface hosted Care Pal on a WhatsApp/Telegram sandbox. (+100 · 📲 Channel Pioneer)
+Out of timebox — skip with no penalty. Surface hosted Care Pal on a WhatsApp/Telegram sandbox.
 
 ---
 

@@ -1,15 +1,9 @@
----
-id: lab-01
-title: "Lab 1: Triage Agent — Understand, Classify, Route"
-duration_minutes: 45
-audience: ["Everyone"]
-foundry_capabilities: ["Instructions design", "Structured outputs", "Model selection"]
-order: 1
-is_active: false
-max_points: 300
-bonus_quest: true
-rails: ["navigator", "builder", "engineer"]
-tier: "L200"
+# 🩺 Lab 1 · Triage Agent — Understand, Classify, Route
+
+**⏱️ 45 min**  ·  **👥 Everyone**  ·  **📊 L200**  ·  **🧩 Instructions design, Structured outputs, Model selection**
+
+**🧭 You are here:** [Lab 0](lab-00.md) · **▸ Lab 1** · [Lab 2](lab-02.md) · [Lab 3](lab-03.md) · [Lab 4](lab-04.md) · [Lab 5](lab-05.md)  ·  🏠 [Workshop home](../../README.md)
+
 ---
 
 > 🩺 **Mr. Rajan — Chapter 1**
@@ -21,6 +15,9 @@ tier: "L200"
 ## What you'll learn
 A reply humans can read isn't enough — software needs a reply it can **act on**. You'll make Care Pal
 return **structured JSON** every turn, and design instructions that route a message by clinical risk.
+
+> **📂 This lab, three ways — pick your rail:**
+> 🟢 **Navigator** (portal, screenshots): **[lab-01-portal.md](lab-01-portal.md)** · 🟡 **Builder** (notebook): **[`lab1_triage.ipynb`](../assets/lab1_triage.ipynb)** · 🔴 **Engineer** (script): **[`lab1_triage.py`](../assets/lab1_triage.py)**
 
 ## The triage contract (shared by every rail)
 Your agent must return **only** this JSON object:
@@ -89,7 +86,7 @@ Output JSON only — no text outside the JSON.
    > [`content/prompts/test-prompts.json`](../prompts/test-prompts.json)
 
 ## 🟡 Builder — notebook
-Open **`lab1_triage.ipynb`** and run it top to bottom. Every cell has an inline markdown explanation of
+Open **[`lab1_triage.ipynb`](../assets/lab1_triage.ipynb)** and run it top to bottom. Every cell has an inline markdown explanation of
 what it does and how it maps to Foundry, so the notebook *is* your detailed guide. You fill the
 `instructions=` blank (the Triage block) and keep `structured=True` — that pins the 7-key JSON via the
 agent's **structured-output schema** — then the last cell loops the three test messages and checks each
@@ -105,7 +102,7 @@ calls `project.agents.create_version(...)` with a `PromptAgentDefinition` (model
 sample: `azure-ai-projects` 2.x → [`sample_agent_structured_output.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_agent_structured_output.py)
 
 ## 🔴 Engineer — SDK
-Run **`lab1_triage.py`** (`python lab1_triage.py` from `assets/`), then open it and fill the `# 👉`
+Run **[`lab1_triage.py`](../assets/lab1_triage.py)** (`python lab1_triage.py` from `assets/`), then open it and fill the `# 👉`
 lines. The goal: create a versioned agent whose **structured-output schema** forces the 7-key JSON,
 then `assert` the route for all three inputs.
 
@@ -150,9 +147,9 @@ sample: [`sample_agent_structured_output.py`](https://github.com/Azure/azure-sdk
 ## ✅ Validation
 Paste the JSON your agent returned for **"I have crushing chest pain and I can't breathe properly."**
 Passes when **all 7 keys are present** *and* **`route == "immediate_escalation"`**.
-You earn points for each of the three messages routed correctly. **(300 pts · badge 🧠 Prompt Engineer)**
+Confirm each of the three messages routes correctly.
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Add a new `intent` value — `medication_question` — and show that *"Can my father take his water
 pill in the morning instead of at night?"* routes to `timely_review`.
 

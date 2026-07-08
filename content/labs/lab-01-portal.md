@@ -31,9 +31,9 @@ New chat, send each: diet question · swelling "okay otherwise" · chest pain. C
 
 ## ✅ Validation
 Paste the JSON for the chest-pain message → all **7 keys** present and
-`route == "immediate_escalation"`. (300 pts · 🧠 Prompt Engineer)
+`route == "immediate_escalation"`.
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Show "take water pill in the morning?" routes to `timely_review` (medication_question).
 
 ---

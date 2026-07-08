@@ -26,6 +26,23 @@ go deeper in notebooks and Python.
 
 ---
 
+## The story — Mr. Rajan's recovery
+
+Every lab advances **one patient's story**, so each Foundry feature has a human reason. *(All data is synthetic — no real patient is depicted.)*
+
+**Mr. Rajan Kumar, 64** is discharged from **NTFGH Ward 6A** after a heart-failure admission; his daughter **Priya** is his caregiver. Over one week, each message he or Priya sends forces Care Pal to grow the capability you build in that lab:
+
+- **Lab 0 · Day 0** — Home from the ward, Rajan opens Care Pal and says *"Hi"*. → *An agent that introduces itself honestly and asks for consent.*
+- **Lab 1 · Day 2** — *"I was discharged recently for heart failure."* → *Triage: read the **intent**, gauge the **risk**, choose a **route**.*
+- **Lab 2 · Day 2** — *"What diet should he follow?"* → *Grounded answers that **cite** a trusted HealthHub source.*
+- **Lab 3 · Day 4, 2am** — *"Crushing chest pain, I can't breathe."* → *Guardrails that **escalate**, never self-answer, and leave an audit trail.*
+- **Lab 4 · Day 5** — *"Which follow-up appointments, and what diet?"* → *A **multi-agent** hand-off to Follow-Up + Education specialists.*
+- **Lab 5 · Day 7** — Care Pal must check a real appointment slot, at any hour. → *A real **tool (MCP)** + a **deployed**, always-on agent.*
+
+Full narrative, one chapter per lab: [content/narrative/rajan.md](content/narrative/rajan.md).
+
+---
+
 ## How the workshop flows
 
 Everyone builds the **same** Care Pal agent across **six labs, done in order (Lab 0 → Lab 5)**. Each lab
@@ -53,6 +70,37 @@ section. **Pick the rail that fits you and follow just that section** — you ca
 **Moving between labs:** every lab page ends with a **🧭 Where next?** footer that links the previous and
 next lab (and the matching portal/rail-tabbed version), so you can walk the whole workshop start to finish
 without hunting for the next file.
+
+---
+
+## Key learning points — track your progress
+
+By 5:30 pm you'll have personally **built, grounded, governed, observed, and deployed** a working Care Pal
+agent. Tick each box as you finish a lab:
+
+**Lab 0 — Hello, Care Pal**
+- [ ] Build an agent from **model + instructions** in the Foundry portal
+- [ ] Make it refuse unsafe requests — no diagnosis, redirect to emergency care
+
+**Lab 1 — Triage Agent**
+- [ ] Enforce **structured output** (a 7-key JSON contract) so replies are machine-routable
+- [ ] Design instructions that map **intent + risk → route**
+
+**Lab 2 — Knowledge & Grounding**
+- [ ] Ground answers in a private **knowledge base (RAG)** with real citations
+- [ ] Make the agent **decline** instead of inventing a source when it doesn't know
+
+**Lab 3 — Govern & Observe**
+- [ ] Apply **guardrails / content safety** + human-in-the-loop escalation
+- [ ] **Evaluate** with traces and a safety score — measure safety, don't guess
+
+**Lab 4 — Multi-Agent Care Pal**
+- [ ] Compose an **orchestrator** that delegates to specialist agents
+- [ ] See why small, focused agents are easier to test and trust than one giant prompt
+
+**Lab 5 — Extend & Deploy**
+- [ ] Give an agent a real **tool via MCP**, with approval before it acts
+- [ ] **Deploy** Care Pal as an always-on hosted agent
 
 ---
 
@@ -168,7 +216,7 @@ full checklist.
     │   ├── mcp-appointments/        ←   Lab 5 Part A — mock appointments MCP server (deployed to ACA)
     │   └── hosted-deploy/           ←   Lab 5 Part B — hosted-agent deploy scaffold
     ├── knowledge/                   ← RAG grounding docs for Lab 2/4 (HealthHub pack)
-    ├── demos/foundry-iq-wound-care/ ← ⭐ standalone Foundry IQ demo (not a graded lab)
+    ├── demos/foundry-iq-wound-care/ ← ⭐ standalone Foundry IQ demo (not a core lab)
     ├── prompts/test-prompts.json    ← single source of truth for canned prompts + expected routes
     ├── narrative/rajan.md           ← the patient story, one chapter per lab
     └── answer-keys/                 ← SERVER-SIDE validators — never ship to participants
@@ -185,5 +233,5 @@ full checklist.
 ---
 
 > [!IMPORTANT]
-> `content/answer-keys/` are **graders**, not participant assets. Keep them out of any deployed
+> `content/answer-keys/` are **validators**, not participant assets. Keep them out of any deployed
 > agent code and never surface them to the room.

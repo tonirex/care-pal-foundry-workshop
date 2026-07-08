@@ -3,6 +3,8 @@
 Attach a file-search (RAG) index over the curated HealthHub discharge pack so every education
 answer carries a healthhub.sg citation. Run:  `python lab2_rag.py`
 
+Lab instructions: ../labs/lab-02.md (all three rails) · portal walkthrough: ../labs/lab-02-portal.md
+
 PREREQ: drop the real HealthHub exports into ../knowledge/healthhub-discharge-pack/ first
 (see that folder's README) — otherwise there is nothing to cite.
 

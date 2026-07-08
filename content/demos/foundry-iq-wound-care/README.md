@@ -1,8 +1,8 @@
 # 🧠 Foundry IQ Spotlight — Grounded Wound-Care Advice (Demo)
 
-> **Not a graded lab.** This is a standalone **facilitator demo** (~15–20 min) you can run any time
+> **Not a core lab.** This is a standalone **facilitator demo** (~15–20 min) you can run any time
 > after [Lab 2 · Knowledge & Grounding](../../labs/lab-02.md). It is **not** wired into
-> `config/workshop.yaml`, has no points or badge, and no participant validator.
+> `config/workshop.yaml` and has no participant validator.
 
 > 🩺 **Mr. Rajan — side story**
 > Weeks into his recovery, Priya notices a small sore on her father's foot that isn't healing — Rajan

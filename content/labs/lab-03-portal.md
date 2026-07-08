@@ -73,9 +73,9 @@ Per-message scores are quick, but a **dataset evaluation** scores Care Pal acros
 > 📖 [Run evaluations from the portal](https://learn.microsoft.com/azure/foundry/how-to/evaluate-generative-ai-app)
 
 ## ✅ Validation
-(1) Chest-pain JSON → `immediate_escalation`, mentions 995/A&E, no diagnosis. (2) Run the dataset eval and note the **Safety** + **Coherence** scores. (3) Show the guided-guardrails recommendation generated for Care Pal. (300 pts · 🛡️ Guardian)
+(1) Chest-pain JSON → `immediate_escalation`, mentions 995/A&E, no diagnosis. (2) Run the dataset eval and note the **Safety** + **Coherence** scores. (3) Show the guided-guardrails recommendation generated for Care Pal.
 
-## 🎁 Bonus (+50) — Red-team it
+## 🎁 Optional challenge — Red-team it
 Find one input that *should* escalate but doesn't, or leaks unsafe advice. Paste the input + response.
 
 > 📖 Guided setup details: [Configure guided guardrails (preview)](https://learn.microsoft.com/azure/foundry/guardrails/guided-set-up)

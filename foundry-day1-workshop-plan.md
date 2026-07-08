@@ -17,7 +17,7 @@
 5. [Session 1 (L100) — Platform Walkthrough + Lab 0](#5-session-1-l100--platform-walkthrough--lab-0)
 6. [Session 2 (L200–L300) — Hands-On Labs 1–5](#6-session-2-l200l300--hands-on-labs-15)
 7. [Mapping to Reference Workshops](#7-mapping-to-reference-workshops)
-8. [Gamification & Platform Reuse](#8-gamification--platform-reuse)
+8. [Platform Reuse](#8-platform-reuse)
 9. [Validation & Answer Keys for Agents](#9-validation--answer-keys-for-agents)
 10. [Workshop Lab Assistant](#10-workshop-lab-assistant)
 11. [Facilitator Guide & Run-of-Show](#11-facilitator-guide--run-of-show)
@@ -49,7 +49,7 @@ By end of day, participants can:
 
 | Time | Session | Min | Tier | Audience |
 |------|---------|-----|------|----------|
-| 9:00 | **Opening & Care Pal context** — the problem, the day, the rules of the game | 20 | — | Everyone |
+| 9:00 | **Opening & Care Pal context** — the problem, the day, and how it runs | 20 | — | Everyone |
 | 9:20 | **What is Microsoft Foundry** — unified platform (models · agents · tools · observability · governance), live Care Pal tour | 30 | L100 | Everyone |
 | 9:50 | **Foundry Models** — catalogue, model-as-a-service, **model-router** (cost vs performance) | 20 | L100 | Everyone |
 | 10:10 | **Foundry Agent Service** — agent = model + instructions + tools; managed runtime, memory, surfaces | 30 | L100 | Everyone |
@@ -64,27 +64,27 @@ By end of day, participants can:
 | 3:15 | **Lab 3 — Govern & Observe** (guardrails, content safety, traces, evaluation) | 45 | L200–300 | Tiered |
 | 4:00 | **Lab 4 — Multi-Agent Care Pal** (orchestrator + specialist agents) | 50 | L300 | Tiered |
 | 4:50 | **Lab 5 — Extend & Deploy** (MCP tool + hosted agent) · *optional stretch: connect a channel* | 30 | L300 | 🔴 Engineer track + demo |
-| 5:20 | **Wrap-up, leaderboard reveal, certificates** | 10 | — | Everyone |
+| 5:20 | **Wrap-up & reflection** | 10 | — | Everyone |
 | 5:30 | End | | | |
 
 > Morning mirrors the customer's PDF Session 1 (L100) but is made concrete by demoing Care Pal at every step and a single everyone-can-do build (Lab 0). Afternoon is the PDF Session 2 hands-on, restructured into five tightly time-boxed Foundry labs with three difficulty rails.
 
 ### 1.4 Lab Modules at a Glance
 
-| Lab | Title | Foundry capability | Care Pal slice | Points |
-|-----|-------|--------------------|----------------|--------|
-| 0 | Hello, Care Pal | Agent Service basics: model + instructions + playground | A consenting, safe greeter | 100 |
-| 1 | Triage Agent | Structured outputs, instructions design, model selection | Understand & Classify → `intent/risk/route` | 300 + 50 |
-| 2 | Knowledge & Grounding | Tools & Knowledge: web search + file search (RAG), citations | Education Agent grounded in HealthHub | 300 + 50 |
-| 3 | Govern & Observe | Control Plane: guardrails, content safety, HITL, traces, evaluation | Risk escalation + "pending clinical review" safety | 300 + 50 |
-| 4 | Multi-Agent Care Pal | Connected/multi-agent orchestration | Triage → Navigation/Education/Assessment/Follow-Up/Enrollment | 300 + 50 |
-| 5 | Extend & Deploy | MCP tool + hosted agent (SDK/azd/VS Code Toolkit) | A real tool + Care Pal running as a hosted service | 200 + 100 |
+| Lab | Title | Foundry capability | Care Pal slice |
+|-----|-------|--------------------|----------------|
+| 0 | Hello, Care Pal | Agent Service basics: model + instructions + playground | A consenting, safe greeter |
+| 1 | Triage Agent | Structured outputs, instructions design, model selection | Understand & Classify → `intent/risk/route` |
+| 2 | Knowledge & Grounding | Tools & Knowledge: web search + file search (RAG), citations | Education Agent grounded in HealthHub |
+| 3 | Govern & Observe | Control Plane: guardrails, content safety, HITL, traces, evaluation | Risk escalation + "pending clinical review" safety |
+| 4 | Multi-Agent Care Pal | Connected/multi-agent orchestration | Triage → Navigation/Education/Assessment/Follow-Up/Enrollment |
+| 5 | Extend & Deploy | MCP tool + hosted agent (SDK/azd/VS Code Toolkit) | A real tool + Care Pal running as a hosted service |
 
 ---
 
 ## 2. Audience Tiering — The 3-Rail Model
 
-The single biggest design challenge is the **mixed-skill room**. We solve it with **three rails per task**. Every lab task states one shared *objective* and *validation checkpoint*, but offers three routes to get there. Participants pick a rail (and may switch per lab). **Everyone reaches the same checkpoint**, so the leaderboard, narrative, and group debrief stay synchronised.
+The single biggest design challenge is the **mixed-skill room**. We solve it with **three rails per task**. Every lab task states one shared *objective* and *validation checkpoint*, but offers three routes to get there. Participants pick a rail (and may switch per lab). **Everyone reaches the same checkpoint**, so the narrative and group debrief stay synchronised.
 
 | Rail | Who | How they work | Tooling |
 |------|-----|---------------|---------|
@@ -94,9 +94,9 @@ The single biggest design challenge is the **mixed-skill room**. We solve it wit
 
 **Rules that make it work**
 - **Same checkpoint, three doors.** A task's validation (e.g., "your agent routes a chest-pain message to `immediate_escalation`") is rail-agnostic.
-- **Tier up any time.** A Navigator who finishes early is nudged to try the Builder rail's bonus.
-- **Pair & share.** Seat one technical next to one non-technical participant per pod; pods share a leaderboard team name.
-- **Concept-only fallback.** Anyone who doesn't want to build can complete a short **reflection card** per lab for participation points (parity with the Fabric day's Lab 5 fallback).
+- **Tier up any time.** A Navigator who finishes early is nudged to try the Builder rail's optional challenge.
+- **Pair & share.** Seat one technical next to one non-technical participant per pod; pods share a team name.
+- **Concept-only fallback.** Anyone who doesn't want to build can complete a short **reflection card** per lab (parity with the Fabric day's Lab 5 fallback).
 - **No one is blocked by Azure.** The portal Navigator rail needs only a browser + the shared workshop project; SDK/quotas only matter for 🔴.
 
 > Facilitator framing line: *"Pick the rail you're comfortable on. The destination is identical — only the scenery differs."*
@@ -202,13 +202,13 @@ The morning's equaliser: every person in the room ships one agent. **All three r
 
 **Steps (Navigator rail — all click):**
 1. `https://ai.azure.com` → shared workshop project `ntfgh-carepal-workshop` → **+ New agent**.
-2. Name it `carepal-<yourinitials>` (e.g., `carepal-ac`) — the convention keeps everyone's agents collision-free in the shared project, and your name appears on your certificate.
+2. Name it `carepal-<yourinitials>` (e.g., `carepal-ac`) — the convention keeps everyone's agents collision-free in the shared project so they're easy to find.
 3. Model: `gpt-5.4-mini` (or `model-router`).
 4. Paste the starter **Instructions** block (provided): identity, "not a doctor / call 995", synthetic-data consent, refuse diagnosis.
 5. **Chat** → send *"Hi"* → confirm it greets + asks consent.
 6. Send *"Can you tell me if I'm having a heart attack?"* → confirm it **refuses to diagnose** and points to 995/A&E.
 
-**✅ Validation 0:** Paste your agent's reply to *"Can you tell me if I'm having a heart attack?"* — the platform checks it contains a refusal-to-diagnose + an emergency redirect (keyword/regex check, see §9). *(100 pts; +badge "First Responder")*
+**✅ Validation 0:** Paste your agent's reply to *"Can you tell me if I'm having a heart attack?"* — the platform checks it contains a refusal-to-diagnose + an emergency redirect (keyword/regex check, see §9).
 
 > 🟡/🔴 may instead view the agent on the YAML tab or hand-create a second version **in the portal** for a head-start on the afternoon — same checkpoint, still no SDK/VS Code today.
 
@@ -216,7 +216,7 @@ The morning's equaliser: every person in the room ships one agent. **All three r
 
 ## 6. Session 2 (L200–L300) — Hands-On Labs 1–5
 
-Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails** → **one validation checkpoint** → optional **bonus**. Reference-repo provenance is cited per rail so technical participants can go deeper after the day.
+Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails** → **one validation checkpoint** → optional **challenge**. Reference-repo provenance is cited per rail so technical participants can go deeper after the day.
 
 ---
 
@@ -240,8 +240,8 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 **🔴 Engineer (SDK)**
 - In VS Code, complete `lab1_triage.py`: create the agent with a Pydantic/JSON schema for structured output; assert routing on the 3 inputs. *(Pattern: `Foundry-Agent-Lab/hello-demo` + structured-output extension.)*
 
-**✅ Validation 1:** Paste the JSON for the chest-pain message → platform checks `route == "immediate_escalation"` **and** all 7 required keys present. *(300 pts across 3 routed messages; see §9.)*
-**🎁 Bonus (+50):** Add a new `intent` value (e.g., `medication_question`) and show it routes sensibly.
+**✅ Validation 1:** Paste the JSON for the chest-pain message → platform checks `route == "immediate_escalation"` **and** all 7 required keys present. *(see §9.)*
+**🎁 Optional challenge:** Add a new `intent` value (e.g., `medication_question`) and show it routes sensibly.
 
 ---
 
@@ -262,8 +262,8 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 **🟡 Builder (notebook):** `lab2_rag.ipynb` — create a vector store, attach `FileSearchTool`, query, print citations. *(Pattern: azure-ai-projects 2.x → `tools/sample_agent_file_search.py`.)*
 **🔴 Engineer (SDK):** `lab2_rag.py` — upload docs, build the index, attach `FileSearchTool` (Web Search optional), assert ≥1 citation on an education query.
 
-**✅ Validation 2:** Paste the JSON for the diet question → platform checks `source_urls` is non-empty **and** contains a `healthhub.sg` host. *(300 pts.)*
-**🎁 Bonus (+50):** Ask a question the pack can't answer → show the agent declines/qualifies instead of hallucinating.
+**✅ Validation 2:** Paste the JSON for the diet question → platform checks `source_urls` is non-empty **and** contains a `healthhub.sg` host.
+**🎁 Optional challenge:** Ask a question the pack can't answer → show the agent declines/qualifies instead of hallucinating.
 
 ---
 
@@ -285,8 +285,8 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 **🟡 Builder (notebook):** `lab3_eval.ipynb` — run evaluators programmatically over a CSV of red-flag/benign prompts; print pass-rate. *(Pattern: `agentic-ai-immersion → observability-and-evaluations/2-agent-evaluation.ipynb`, `5-red-team`.)*
 **🔴 Engineer (SDK):** `lab3_eval.py` — enable telemetry (OpenTelemetry → Azure Monitor), run an evaluation sweep, fail the build if safety < threshold. *(Pattern: `agentic-ai-immersion → observability-and-evaluations/1-telemetry.ipynb`.)*
 
-**✅ Validation 3:** (a) Paste the chest-pain JSON → `route == "immediate_escalation"`; (b) enter your **Safety** score (2 dp) from the Evaluation tab. *(300 pts; +badge "Guardian".)*
-**🎁 Bonus (+50):** Red-team it — find one input that *should* escalate but doesn't; report it (great clinical-SME task).
+**✅ Validation 3:** (a) Paste the chest-pain JSON → `route == "immediate_escalation"`; (b) enter your **Safety** score (2 dp) from the Evaluation tab.
+**🎁 Optional challenge:** Red-team it — find one input that *should* escalate but doesn't; report it (great clinical-SME task).
 
 ---
 
@@ -296,7 +296,7 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 
 **Demo (5 min):** Show a triage **orchestrator** that calls specialist agents (Navigation, Education, Follow-Up). Walk a trace: orchestrator → 2 specialists → synthesis.
 
-**Objective:** Turn the single triage agent into an orchestrator that delegates LOW-risk paths to specialist agents (subset of the customer's 5: **Navigation, Education, Follow-Up** required; Assessment, Enrollment as bonus).
+**Objective:** Turn the single triage agent into an orchestrator that delegates LOW-risk paths to specialist agents (subset of the customer's 5: **Navigation, Education, Follow-Up** required; Assessment, Enrollment as an optional challenge).
 
 **🟢 Navigator (portal)**
 1. Create 2 specialist agents from templates: **Education** (reuse Lab 2 agent) and **Follow-Up** (instructions: schedule check-ins, collect symptom responses).
@@ -307,8 +307,8 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 **🟡 Builder (notebook):** `lab4_multiagent.ipynb` — define agents, expose specialists as **function tools** (delegation), trace the call chain. *(Pattern: azure-ai-projects 2.x → `tools/sample_agent_function_tool.py`, `sample_workflow_multi_agent.py`.)*
 **🔴 Engineer (SDK):** `lab4_multiagent.py` — orchestrator delegates via **function tools**; assert ≥2 specialist calls on a compound query. *(Go further: `WorkflowAgentDefinition`, or Microsoft Agent Framework.)*
 
-**✅ Validation 4:** Paste the orchestrator reply + open the trace → platform/facilitator confirms ≥2 specialist agents invoked (trace screenshot or `tool_calls` count). *(300 pts; +badge "Orchestrator".)*
-**🎁 Bonus (+50):** Add a 3rd specialist (Assessment or Enrollment & Linkage) and show it firing.
+**✅ Validation 4:** Paste the orchestrator reply + open the trace → platform/facilitator confirms ≥2 specialist agents invoked (trace screenshot or `tool_calls` count).
+**🎁 Optional challenge:** Add a 3rd specialist (Assessment or Enrollment & Linkage) and show it firing.
 
 ---
 
@@ -323,10 +323,10 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 **Part B — Deploy a hosted agent (15 min, 🔴 hands-on / others watch)**
 - Deploy Care Pal as a **hosted agent** to Foundry Agent Service — via **VS Code Foundry Toolkit** (*Deploy to Microsoft Foundry*) or `azd up`. Show it answering via the **Agent Inspector / Call agent**. *(Pattern: VS Code *hosted-agents* doc; `Foundry-Agent-Lab/hosted-demo`; `agentic-ai-immersion → Deployment / azd`.)*
 
-**✅ Validation 5:** Provide your **hosted agent endpoint/ID**; the platform pings it with a canned message and checks for a valid triage JSON response. *(200 pts; +badge "Deployer".)*
+**✅ Validation 5:** Provide your **hosted agent endpoint/ID**; the platform pings it with a canned message and checks for a valid triage JSON response.
 
 **⭐ Optional stretch (only if time remains, 5–10 min, demo) — Connect a channel**
-- Surface the hosted Care Pal on a **WhatsApp/Telegram** sandbox so a phone in the room can chat to it — closing the loop to the customer's real front-end. **Explicitly out of the core timebox**; skip without penalty. *(+100 stretch badge "Channel Pioneer".)*
+- Surface the hosted Care Pal on a **WhatsApp/Telegram** sandbox so a phone in the room can chat to it — closing the loop to the customer's real front-end. **Explicitly out of the core timebox**; skip without penalty.
 
 ---
 
@@ -347,9 +347,9 @@ Each lab's 🟡/🔴 rails run on the **current Foundry API** (`azure-ai-project
 
 ---
 
-## 8. Gamification & Platform Reuse
+## 8. Platform Reuse
 
-**Reuse the Fabric-day platform as-is** (Next.js + Supabase: join flow, lab pages, validation engine, realtime leaderboard, stuck-indicator, lab assistant, certificate, CSV export). Only the *content config* and a few validators change.
+**Reuse the Fabric-day platform as-is** (Next.js + Supabase: join flow, lab pages, validation engine, stuck-indicator, lab assistant, progress tracking, CSV export). Only the *content config* and a few validators change.
 
 **Config delta (`workshop.yaml`):**
 ```yaml
@@ -362,10 +362,8 @@ workshop:
   agent_validation: true              # NEW: validators may call an agent endpoint (see §9)
 ```
 
-**New mechanics for an agent workshop:**
+**New for an agent workshop:**
 - **Rail tabs** on each task (🟢/🟡/🔴) — same checkpoint, three instruction sets.
-- **Foundry badges:** First Responder (Lab 0) · Prompt Engineer (Lab 1) · Librarian (Lab 2 grounding) · Guardian (Lab 3) · Orchestrator (Lab 4) · Deployer (Lab 5) · Channel Pioneer (stretch).
-- **Points:** parity with Fabric day — 100/task first attempt, completion + speed bonuses; ~1,800 base + bonuses.
 
 **Fun facts (sample, healthcare-agent flavour):**
 | Checkpoint | Fun fact |
@@ -388,7 +386,7 @@ Participant pastes the agent's JSON for a *fixed* prompt; the server validates:
 - **Safety check (regex):** refusal-to-diagnose + emergency redirect present.
 
 **Type B — Endpoint harness (🔴/optional):**
-Participant submits their **agent endpoint + key**; the platform runs a fixed prompt set and scores `route`, citation presence, and a guardrail probe automatically. Used for Lab 5 (hosted) and any "tier-up" bonus.
+Participant submits their **agent endpoint + key**; the platform runs a fixed prompt set and checks `route`, citation presence, and a guardrail probe automatically. Used for Lab 5 (hosted) and any "tier-up" challenge.
 
 **Answer-key file (server-side only, never shipped to client):**
 ```jsonc
@@ -419,16 +417,16 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 ## 11. Facilitator Guide & Run-of-Show
 
-**Roles:** 1 lead facilitator (drives concept + demos) · 1–2 floaters (rail support; ≈1 per 7 participants, so 2 is comfortable for a room of ~14) · 1 platform operator (`/admin/runsheet`: unlock labs, push hints, extend time, advance leaderboard).
+**Roles:** 1 lead facilitator (drives concept + demos) · 1–2 floaters (rail support; ≈1 per 7 participants, so 2 is comfortable for a room of ~14) · 1 platform operator (`/admin/runsheet`: unlock labs, push hints, extend time).
 
 **Per-lab loop:** unlock lab → 5-min demo → start timer (portal time on screen) → floaters watch the **amber stuck rows** (≥3 failed attempts) → push a hint if a cluster is stuck → close lab → 2-min debrief tying the checkpoint back to the §3 Foundry layer.
 
 **Timeboxing discipline (one-day):**
-- Labs 1–4 are hard-capped; if a lab over-runs, the operator extends **+10 min once**, else moves on (the platform records partial points).
+- Labs 1–4 are hard-capped; if a lab over-runs, the operator extends **+10 min once**, else moves on (the platform records partial progress).
 - Lab 5 is **demo-first**; only 🔴 participants run it live, so a slow room still finishes on time.
 - The channel stretch is the shock-absorber — drop it first.
 
-**Energy:** leaderboard top-3 reveal between labs; confetti on lab completion; one "clinical fun fact" per checkpoint.
+**Energy:** share one "clinical fun fact" per checkpoint and debrief each lab's takeaway as a group.
 
 ---
 
@@ -439,7 +437,7 @@ Reuse the floating **no-spoilers** assistant, re-grounded on Foundry content:
 
 **Provisioning model (decided): one shared Foundry project** `ntfgh-carepal-workshop` for the whole room — simplest for a mixed/non-technical audience, single quota to manage, nothing to provision per person.
 
-> **Shared-project hygiene:** everyone creates agents/resources in the *same* project, so enforce a **naming convention** to avoid collisions and make the leaderboard/certificate legible: `carepal-<yourinitials>` (e.g., `carepal-ac`). The operator pre-creates a **read-only reference agent** (`carepal-reference`) participants can clone, and the platform's certificate uses each participant's chosen agent name. Floaters keep an eye on the project's agent list for duplicates.
+> **Shared-project hygiene:** everyone creates agents/resources in the *same* project, so enforce a **naming convention** to avoid collisions and keep each person's work easy to find: `carepal-<yourinitials>` (e.g., `carepal-ac`). The operator pre-creates a **read-only reference agent** (`carepal-reference`) participants can clone. Floaters keep an eye on the project's agent list for duplicates.
 
 **Provided centrally (operator, day before):**
 - The shared Foundry project `ntfgh-carepal-workshop` on the **New Foundry** experience, with all participants added (Azure AD guests or a shared workshop login) and the `carepal-reference` agent pre-built.
@@ -492,7 +490,7 @@ Participants get **Foundry User** (data-plane: build + run agents, file search, 
 2. **Audience split** — rough % non-technical vs developer? (Tunes how much of Lab 5 is live vs demo.)
 3. **Is the platform reuse approved** by your Fabric-day colleague (Eric), or should Lab content be channel-agnostic markdown only?
 4. **HealthHub content** — OK to bundle curated HealthHub PDFs as the RAG pack, or use a synthetic discharge-care doc set?
-5. **Do you want the full gamified-platform build plan too** (the scope option you skipped), or is this content-plan + reuse sufficient?
+5. **Do you want the full platform build plan too** (the scope option you skipped), or is this content-plan + reuse sufficient?
 
 ---
 
@@ -516,10 +514,9 @@ Participants get **Foundry User** (data-plane: build + run agents, file search, 
 - Re-ground the lab assistant; verify it never leaks expected routes.
 
 **P2 — nice to have**
-- Assessment + Enrollment specialist agents as Lab 4 bonus.
+- Assessment + Enrollment specialist agents as a Lab 4 optional challenge.
 - Channel stretch (WhatsApp/Telegram sandbox).
-- Per-rail certificates ("Navigator / Builder / Engineer").
 
 ---
 
-*Draft v0.1 — pending your answers to §13. Next step on approval: expand the labs into per-lab `lab-0X.md` files (rail-tabbed) + the answer-key set, or hand to the gamified platform for content load.*
+*Draft v0.1 — pending your answers to §13. Next step on approval: expand the labs into per-lab `lab-0X.md` files (rail-tabbed) + the answer-key set, or hand to the workshop platform for content load.*

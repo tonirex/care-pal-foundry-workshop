@@ -6,6 +6,8 @@ print the routing pass-rate, then score safety with azure-ai-evaluation and fail
 threshold (safety = N/A if the evaluator is not enabled in the tenant — same as the portal lab).
 Run:  `python lab3_eval.py`
 
+Lab instructions: ../labs/lab-03.md (all three rails) · portal walkthrough: ../labs/lab-03-portal.md
+
 Reference patterns: agentic-ai-immersion -> observability-and-evaluations/
   1-telemetry.ipynb, 2-agent-evaluation.ipynb, 5-red-team.
 """

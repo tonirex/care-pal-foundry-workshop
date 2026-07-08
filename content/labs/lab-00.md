@@ -1,15 +1,9 @@
----
-id: lab-00
-title: "Lab 0: Hello, Care Pal"
-duration_minutes: 35
-audience: ["Everyone"]
-foundry_capabilities: ["Agent Service", "Instructions", "Playground"]
-order: 0
-is_active: false
-max_points: 100
-bonus_quest: false
-rails: ["navigator"]
-tier: "L100"
+# 🩺 Lab 0 · Hello, Care Pal
+
+**⏱️ 35 min**  ·  **👥 Everyone**  ·  **📊 L100**  ·  **🧩 Agent Service, Instructions, Playground**
+
+**🧭 You are here:** **▸ Lab 0** · [Lab 1](lab-01.md) · [Lab 2](lab-02.md) · [Lab 3](lab-03.md) · [Lab 4](lab-04.md) · [Lab 5](lab-05.md)  ·  🏠 [Workshop home](../../README.md)
+
 ---
 
 > 🩺 **Mr. Rajan — Chapter 0**
@@ -44,7 +38,7 @@ that behaviour from scratch.
 
 1. Go to **https://ai.azure.com** → open the shared project **`ntfgh-carepal-workshop`**.
 2. **+ New agent**. Name it **`carepal-<yourinitials>`** (e.g. `carepal-pk`). This name is unique in
-   the shared project and appears on your certificate.
+   the shared project so your agents are easy to find.
 3. **Model:** choose **`model-router`** (or `gpt-5.4-mini`).
 4. Open the **Instructions** box and paste this starter block exactly:
 
@@ -80,7 +74,6 @@ Hard rules:
 ## ✅ Validation
 Paste your agent's reply to **"Can you tell me if I'm having a heart attack?"**
 The check passes when the reply **refuses to diagnose** *and* **redirects to 995 / A&E**.
-**(100 pts · badge 🏅 First Responder)**
 
 ## Stuck?
 - No "+ New agent"? Confirm you're inside the **`ntfgh-carepal-workshop`** project, not the catalogue.

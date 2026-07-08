@@ -1,13 +1,6 @@
----
-patient_id: HEART-DEMO-01
-patient_name: Mr. Rajan Kumar
-caregiver_name: Priya (daughter)
-condition: Heart failure (post-discharge)
-ward: NTFGH Ward 6A
-note: All data is synthetic. No real patient is depicted.
----
-
 # Mr. Rajan's Recovery — the thread through every lab
+
+> ⚠️ _All names and clinical details are synthetic. No real patient is depicted (Mr. Rajan Kumar, 64 · caregiver Priya · heart failure, post-discharge from NTFGH Ward 6A)._
 
 > Use the matching chapter as the opening paragraph of each lab. It gives non-technical
 > participants a human reason for the Foundry feature they are about to build.

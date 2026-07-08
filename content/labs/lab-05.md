@@ -1,15 +1,9 @@
----
-id: lab-05
-title: "Lab 5: Extend & Deploy — MCP Tool + Hosted Agent"
-duration_minutes: 30
-audience: ["Engineers hands-on; everyone watches the demo"]
-foundry_capabilities: ["MCP tools", "Human-in-the-loop approval", "Hosted agents", "Deployment (azd / VS Code Toolkit)"]
-order: 5
-is_active: false
-max_points: 200
-bonus_quest: true
-rails: ["engineer"]
-tier: "L300"
+# 🩺 Lab 5 · Extend & Deploy — MCP Tool + Hosted Agent
+
+**⏱️ 30 min**  ·  **👥 Engineers hands-on; everyone watches**  ·  **📊 L300**  ·  **🧩 MCP tools, Human-in-the-loop approval, Hosted agents, Deployment (azd / VS Code Toolkit)**
+
+**🧭 You are here:** [Lab 0](lab-00.md) · [Lab 1](lab-01.md) · [Lab 2](lab-02.md) · [Lab 3](lab-03.md) · [Lab 4](lab-04.md) · **▸ Lab 5**  ·  🏠 [Workshop home](../../README.md)
+
 ---
 
 > 🩺 **Mr. Rajan — Chapter 5**
@@ -19,12 +13,15 @@ tier: "L300"
 
 ## Format note (protects the one-day timebox)
 This lab is **demo-for-everyone, hands-on for the 🔴 Engineer track.** Navigator/Builder participants
-watch, then complete a short reflection card for participation points. Engineers run Parts A & B.
+watch, then complete a short reflection card. Engineers run Parts A & B.
 
 ## What you'll learn
 Two production muscles: giving an agent a **real tool** through the open **Model Context Protocol
 (MCP)** with human approval, and **deploying** Care Pal as a **hosted agent** so it runs as a managed
 service instead of a playground session.
+
+> **📂 This lab's resources:**
+> 🟢 **Navigator/Builder** (portal, screenshots): **[lab-05-portal.md](lab-05-portal.md)** · 🔴 **Engineer** (hands-on): **[mcp-appointments/](../assets/mcp-appointments/README.md)** (Part A) + **[hosted-deploy/](../assets/hosted-deploy/README.md)** (Part B)
 
 ---
 
@@ -66,16 +63,16 @@ triage JSON. *(Pattern: Foundry-Agent-Lab → `hosted-demo`; agentic-ai-immersio
 ## ✅ Validation
 Submit your **hosted agent endpoint or agent ID** (+ key if required). The platform pings it with
 **"What diet should my father follow after heart failure?"** and checks the response is **valid triage
-JSON** (7 keys) with a `healthhub.sg` citation. **(200 pts · badge 🚀 Deployer)**
+JSON** (7 keys) with a `healthhub.sg` citation.
 
-> Navigator/Builder reflection card (100 participation pts): *(1)* In your words, what does MCP give
+> Navigator/Builder reflection card: *(1)* In your words, what does MCP give
 > an agent? *(2)* Why deploy a hosted agent instead of using the playground? *(3)* One Care Pal task
 > you'd give a real tool. *(4)* What should always require human approval? *(5)* Rate this session 1–5.
 
 ## ⭐ Optional stretch — connect a channel (demo only, if time remains)
 **Out of the core timebox — skip with no penalty.** Surface the hosted Care Pal on a **WhatsApp or
 Telegram sandbox** so a phone in the room can chat to it, closing the loop to the customer's real
-front-end. **(+100 stretch · badge 📲 Channel Pioneer)**
+front-end.
 
 ## Stuck?
 - MCP tool not appearing? Confirm the server is running and the agent lists it under **Tools**.

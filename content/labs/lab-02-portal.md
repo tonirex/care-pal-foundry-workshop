@@ -30,9 +30,9 @@ Confirm `route == "education_navigation"` and `source_urls` contains **healthhub
 ![Grounded answer with healthhub.sg sources](images/lab2-grounded-answer.png)
 
 ## ✅ Validation
-Paste the JSON → `source_urls` non-empty **and** ≥1 URL on the **healthhub.sg** host. (300 pts · 📚 Librarian)
+Paste the JSON → `source_urls` non-empty **and** ≥1 URL on the **healthhub.sg** host.
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Ask "Can my father take a herbal supplement called LiverTone with his heart-failure meds?" → agent **declines/qualifies**, routes to `timely_review`, **empty** `source_urls` (no fabricated sources).
 
 ---

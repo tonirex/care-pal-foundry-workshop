@@ -3,6 +3,8 @@
 Make Care Pal return the 7-key triage JSON every turn and route by clinical risk.
 Run from the `assets/` folder (so `common` imports):  `python lab1_triage.py`
 
+Lab instructions: ../labs/lab-01.md (all three rails) · portal walkthrough: ../labs/lab-01-portal.md
+
 Reference patterns: Foundry-Agent-Lab -> prompt-agent quickstart (structured output via
 PromptAgentDefinition.text); azure-ai-projects 2.x -> sample_agent_structured_output.py.
 """
@@ -41,8 +43,8 @@ def main():
             print(f"OK  {pid:18} -> {out['route']}")
         print("Lab 1 passed ✅")
 
-        # TODO (bonus): add intent 'medication_question' to your instructions and assert that a
-        # medication-timing question routes to 'timely_review'. (Earns the Schema Surgeon badge.)
+        # TODO (optional): add intent 'medication_question' to your instructions and assert that a
+        # medication-timing question routes to 'timely_review'.
     finally:
         cleanup(agent)
 

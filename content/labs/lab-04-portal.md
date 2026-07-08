@@ -57,9 +57,9 @@ immediate_escalation). Return the same triage JSON; merge specialist source_labe
 > Sequential runs every node each turn — perfect to *show* multi-agent. To delegate only when needed, add the optional triage rule in Step 4 and use connected agents instead.
 
 ## ✅ Validation
-Paste reply + trace showing ≥2 specialist nodes ran, covering both topics. (300 pts · 🎛️ Orchestrator)
+Paste reply + trace showing ≥2 specialist nodes ran, covering both topics.
 
-## 🎁 Bonus (+50)
+## 🎁 Optional challenge
 Add a 3rd specialist (Assessment or Enrollment) and show it firing on a fitting question.
 
 ---
