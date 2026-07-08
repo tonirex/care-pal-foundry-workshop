@@ -7,7 +7,7 @@ Validated live on a real project (`steng-proj1`, agent `carepal-kc`, gpt-5 auto-
 |---|-----|----------------|-------|
 | 0 | Setup & first agent | Create agent, consent + refusal | [lab-00-portal.md](lab-00-portal.md) |
 | 1 | Triage | Structured JSON, route to escalation | [lab-01-portal.md](lab-01-portal.md) |
-| 2 | Knowledge & grounding | Web search, cite healthhub.sg | [lab-02-portal.md](lab-02-portal.md) |
+| 2 | Knowledge & grounding | File-search knowledge + web search, cite healthhub.sg | [lab-02-portal.md](lab-02-portal.md) |
 | 3 | Govern & observe | Guardrail, trace, auto-evals | [lab-03-portal.md](lab-03-portal.md) |
 | 4 | Multi-agent | Workflows: triage→education→follow-up | [lab-04-portal.md](lab-04-portal.md) |
 | 5 | Extend & deploy | MCP tool + hosted agent (demo) | [lab-05-portal.md](lab-05-portal.md) |
