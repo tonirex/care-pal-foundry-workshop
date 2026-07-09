@@ -143,34 +143,31 @@ Linkage** (explains programs, checks eligibility) — and show it fires on an ap
 ### 🔴 Engineer (code) — `lab4_multiagent.py`
 1. Add the specialist agent + its instructions:
    ```python
-   ASSESSMENT = (
-       "You track and log symptoms over time (weight, swelling, breathlessness) and tell the user "
-       "what to monitor and when to report a change. You do not diagnose. Reply briefly and plainly."
-   )
-   assessment = create_agent(name=agent_name("assessment"), instructions=ASSESSMENT, structured=False)
+   ASSESSMENT_INSTRUCTIONS = """
+   You are Care Pal's assessment specialist. Using the conversation above, tell the caregiver what to
+   track over time (e.g. daily weight, swelling, breathlessness) and when to report a change. You do
+   not diagnose. 2-4 short sentences.
+   """
+   assessment_agent = chat_client.as_agent(name="assessment", instructions=ASSESSMENT_INSTRUCTIONS)
    ```
-2. Expose it as a function tool and add a handler:
+2. Add it as a fourth participant in the pipeline:
    ```python
-   tools.append(function_tool("ask_assessment",
-       "Symptom tracking / monitoring / daily check-ins", _QUESTION_SCHEMA))
-   functions["ask_assessment"] = lambda question: run_text(assessment, question)
+   workflow = SequentialBuilder(
+       participants=[triage_agent, education_agent, followup_agent, assessment_agent],
+       output_from="all",
+   ).build()
    ```
-3. Add the routing rule to `ORCHESTRATOR`:
-   ```text
-   - symptom tracking, monitoring, daily check-ins -> call the `ask_assessment` tool
-   ```
-4. Fire it and assert it was called:
+3. Ask a question that also needs tracking, then assert the assessment stage appears in the outputs:
    ```python
-   out, trace = run_with_trace(
-       orchestrator,
-       "How should I track my father's weight and swelling each day after discharge?",
-       functions=functions,
+   result = await workflow.run(
+       "What follow-up appointments and diet does my father need, and how do I track his symptoms daily?"
    )
-   called = [c.name for c in trace.tool_calls]
-   assert "ask_assessment" in called, called
-   print("OPTIONAL  assessment fired:", called)
+   seen = [m.author_name for r in result.get_outputs() for m in r.messages]
+   assert "assessment" in seen, seen
+   print("OPTIONAL  assessment fired:", seen)
    ```
-5. Include `assessment` in the `cleanup(...)` call in the `finally` block.
+   (In a sequential pipeline every participant runs, so the assessment stage always contributes — no
+   routing rule needed. For *conditional* routing, try a Handoff or Magentic orchestration instead.)
 
 ---
 

@@ -305,7 +305,7 @@ Each lab = **shared objective** → **facilitator demo (5 min)** → **3 rails**
 4. **Chat** → *"What follow-up appointments does my father need, and what diet should he keep?"* → confirm both specialists are used.
 
 **🟡 Builder (notebook):** `lab4_multiagent.ipynb` — define agents, expose specialists as **function tools** (delegation), trace the call chain. *(Pattern: azure-ai-projects 2.x → `tools/sample_agent_function_tool.py`, `sample_workflow_multi_agent.py`.)*
-**🔴 Engineer (SDK):** `lab4_multiagent.py` — orchestrator delegates via **function tools**; assert ≥2 specialist calls on a compound query. *(Go further: `WorkflowAgentDefinition`, or Microsoft Agent Framework.)*
+**🔴 Engineer (SDK):** `lab4_multiagent.py` — **sequential pipeline** (`triage → education → follow-up`) with the **Microsoft Agent Framework** (`SequentialBuilder`); assert both specialists contribute to the collected outputs. *(Go further: `ConcurrentBuilder`, or a Handoff/Magentic pattern.)*
 
 **✅ Validation 4:** Paste the orchestrator reply + open the trace → platform/facilitator confirms ≥2 specialist agents invoked (trace screenshot or `tool_calls` count).
 **🎁 Optional challenge:** Add a 3rd specialist (Assessment or Enrollment & Linkage) and show it firing.
