@@ -32,9 +32,9 @@ follow-up slot — with **human-in-the-loop approval** before it "books".
 1. The admin pre-deploys the mock MCP once (no auth, synthetic) — `mcp-appointments/deploy-mcp.ps1`
    prints a public `https://…/mcp` URL. To run it yourself instead: `python mcp-appointments/server.py`
    + a tunnel (README has both paths).
-2. Attach it to your agent as an **MCP tool** (portal **Tools → MCP** — the form has no "None" auth, so
-   leave Key-based + a throwaway header; or SDK `MCPTool(server_label, server_url, require_approval)`).
-3. Set **`require_approval="always"`** so the agent must ask before calling `book_appointment`.
+2. Attach it to your agent as an **MCP tool** (portal **Tools → Custom → MCP** — set **Authentication =
+   Unauthenticated** since the mock server needs no auth; or SDK `MCPTool(server_label, server_url, require_approval)`).
+3. Set **`require_approval="always"`** (portal: keep **Never auto-approve tools**) so the agent must ask before calling `book_appointment`.
 4. Ask: *"Can you arrange my father's heart-failure follow-up next week?"* → approve the call →
    confirm it returns a proposed slot.
 

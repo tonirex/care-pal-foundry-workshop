@@ -17,17 +17,24 @@
 
 ![Custom: OpenAPI / MCP / A2A](images/lab5-custom-mcp.png)
 
-3. Fill **Name** (`appointments`), paste the shared **Remote MCP Server endpoint** (the `/mcp` URL above).
-   Foundry's MCP form only offers **Key-based** or **OAuth** (no "None"), so leave **Key-based** and add one
-   throwaway pair (e.g. key `x-demo`, value `workshop`) — the server ignores it. **Connect**.
+3. Fill **Name** (`appointments`), paste the shared **Remote MCP Server endpoint** (the `/mcp` URL above),
+   and set **Authentication** to **Unauthenticated** — the mock server needs no auth, so the Credential
+   fields disappear. **Connect**. *(The dropdown also offers Key-based / OAuth Identity Passthrough /
+   Microsoft Entra; older builds had no "None" option, which is why earlier runs used a throwaway key.)*
 
 ![MCP config form](images/lab5-mcp-form.png)
 
-4. Set approval to **always** so the agent must ask before `book_appointment`. Chat: `Can you arrange my father's heart-failure follow-up next week?` → confirm the slot + give a patient ref → the agent calls `book_appointment` and pauses for **Approve / Deny**:
+4. On the **appointments** tool row, click the kebab (**⋮**) → **Configure**. Under **Approval setting for
+   tools in this MCP server**, keep **Never auto-approve tools** (the default — it means the agent must ask
+   before *every* MCP call, i.e. approval "always"). **Apply**, then **Save** the agent. Now chat:
+   `Can you arrange my father's heart-failure follow-up next week?` → give a patient ref and confirm the
+   slot → the agent calls the MCP tools (`list_slots`, then `book_appointment`) and pauses each time for
+   **Approve / Deny** (the Approve split-button also offers *Approve once* / *Always approve this tool* /
+   *Always approve all tools*):
 
 ![MCP approval prompt — book_appointment](images/lab5-mcp-approval.png)
 
-Approve → it returns a booking ref like `MOCK-CAR-20260706-0930` (synthetic).
+Approve → it returns a booking ref like `MOCK-CAR-20260713-0930` (synthetic).
 
 > Human-in-the-loop: any "booking/medication" action should always require approval.
 
@@ -42,13 +49,23 @@ Approve → it returns a booking ref like `MOCK-CAR-20260706-0930` (synthetic).
 > 💰 **Cost.** 0.5 vCPU / 1 GiB, min 1 replica (stays warm). The monthly free grant (180k vCPU-s, 360k GiB-s, 2M requests) covers most of it: **~$6 for two weeks** at workshop traffic, ~$15 worst-case if always active. Delete after with `az group delete -n rg-carepal-mcp`.
 
 ## Part B — Publish / deploy the hosted agent
-Top-right **Publish** → choose a channel: **Preview web app**, **Teams and Microsoft 365 Copilot**, or set as active version.
+Top-right **Publish** opens a menu: **Active version** (promote a saved version), **Set up routine**,
+**Preview web app**, **Teams & Microsoft 365 Copilot**, and **Details**.
 
 ![Publish menu](images/lab5-publish.png)
 
-> ⚠️ **Demo-only here — two independent reasons.**
-> 1. **RBAC:** publishing a hosted agent requires the **Foundry Project Manager** role. The **Foundry User** role participants hold can build and run agents but **not publish** — so the facilitator publishes from an account that has Project Manager / Owner.
-> 2. **No Teams license:** the workshop tenant has no Teams / Microsoft 365 license, so the *Teams and Microsoft 365 Copilot* channel can be published but **not tested end-to-end**. Use the **Preview web app** channel to actually try the published agent.
+**Preview web app** opens a standalone, shareable chat site for the agent — it greets you by name and has
+*New chat* / *Share* / *Code*. This is the quickest way to try the hosted agent; it opened and answered
+correctly (valid triage JSON + healthhub.sg citations) when verified live during this workshop.
+
+> ⚠️ **Demo-only for the other channels — two reasons.**
+> 1. **No Teams license:** the workshop tenant has no Teams / Microsoft 365 license, so the *Teams &
+>    Microsoft 365 Copilot* channel can be published but **not tested end-to-end**. Use the **Preview web
+>    app** channel to actually try the agent.
+> 2. **RBAC:** promoting to shared channels or standing up a full hosted deployment needs the **Foundry
+>    Project Manager** role; the **Foundry User** role participants hold can build, run, and open the
+>    Preview web app, but production publishing is done by the facilitator from a Project Manager / Owner
+>    account.
 
 Engineers can deploy as code via **VS Code Foundry Toolkit** (Code Remote) or **azd up**.
 
