@@ -126,6 +126,12 @@ Add a **third** specialist — **Assessment** (monitors / tracks symptoms) or **
 - Only one specialist fires? Make the routing rule explicit and ensure **both** specialists are
   attached as connected tools on the orchestrator.
 - Specialists loop or over-call? Add "Call only the specialists needed" and cap with the routing rule.
+- **Sequential run hangs / never finishes?** On the `model-router` deployment, `SequentialBuilder`'s
+  streamed downstream stages can stall (each later agent receives a multi-message conversation with
+  consecutive assistant turns, which the router stalls on in ~30s retry cycles). The SDK rail works
+  around this by sequencing the agents with a small manual loop that passes the running transcript as
+  **one user turn** per stage. The **concurrent** variant (`lab4_multiagent_concurrent.py`) is
+  unaffected — each agent gets the same single question, so the fan-out runs fine as shipped.
 
 ---
 
