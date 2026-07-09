@@ -347,20 +347,36 @@ def mcp_tool(server_label, server_url, require_approval="never", allowed_tools=N
 
 
 # --------------------------------------------------------------------- file search (RAG)
-def build_vector_store(folder, name=None) -> str:
-    """Upload every file under `folder` into a new vector store; return its id.
+def build_vector_store(folder, name=None, reuse=True) -> str:
+    """Index every file under `folder` into a vector store; return its id.
 
     `folder` may be relative to content/knowledge (e.g. "healthhub-discharge-pack").
     Uses the OpenAI-compatible client (new API): openai.vector_stores.*
+
+    When ``reuse=True`` (default) and a vector store with the same ``name`` already
+    exists (and has indexed files), that store's id is returned instead of uploading
+    everything again. Re-indexing the whole pack takes ~1 min, so reuse keeps repeat
+    lab runs fast and avoids creating a new store on every run. Pass ``reuse=False``
+    to force a fresh rebuild.
     """
     openai = get_openai()
+    store_name = name or agent_name("pack")
+    if reuse:
+        try:
+            for vs in openai.vector_stores.list():
+                counts = getattr(vs, "file_counts", None)
+                completed = getattr(counts, "completed", 0) if counts else 0
+                if getattr(vs, "name", None) == store_name and completed:
+                    return vs.id
+        except Exception:  # listing is best-effort; fall through to a fresh build
+            pass
     path = pathlib.Path(folder)
     if not path.is_absolute() and not path.exists():
         path = KNOWLEDGE / folder
     files = sorted(p for p in path.rglob("*") if p.is_file())
     if not files:
         raise RuntimeError(f"No files to index under {path}. Add the HealthHub docs first.")
-    vs = openai.vector_stores.create(name=name or agent_name("pack"))
+    vs = openai.vector_stores.create(name=store_name)
     for fp in files:
         with open(fp, "rb") as fh:
             openai.vector_stores.files.upload_and_poll(vector_store_id=vs.id, file=fh)

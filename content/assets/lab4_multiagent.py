@@ -1,7 +1,7 @@
 """Lab 4 (Engineer) — Multi-Agent Care Pal: SEQUENTIAL orchestration (Microsoft Agent Framework).
 
 Instead of one orchestrator that delegates via function tools, this rail wires three agents into a
-**sequential pipeline** with the Microsoft Agent Framework's `SequentialBuilder`. The caregiver's
+**sequential pipeline** with the Microsoft Agent Framework's `FoundryChatClient`. The caregiver's
 compound question flows through the chain, and each agent adds its piece to the shared conversation:
 
     triage  ->  education  ->  follow-up
@@ -10,9 +10,14 @@ compound question flows through the chain, and each agent adds its piece to the 
 - **education**  answers the *diet / self-care* half of the question.
 - **follow-up**  answers the *appointments / check-ins* half of the question.
 
-`output_from="all"` collects every participant's message, so you SEE the whole pipeline (not just the
-last reply). This mirrors the Microsoft Learn exercise "Develop a multi-agent solution with Microsoft
-Agent Framework" (Summarizer -> Classifier -> Action), applied to Care Pal.
+We drive the chain with a small manual loop: each stage gets the running conversation and appends its
+reply, so you SEE the whole pipeline (not just the last reply). This mirrors the Microsoft Learn
+exercise "Develop a multi-agent solution with Microsoft Agent Framework" (Summarizer -> Classifier ->
+Action), applied to Care Pal.
+
+(Note: the higher-level `SequentialBuilder` orchestration streams its downstream stages, which stalls
+against the `model-router` deployment used here — so we sequence the agents directly instead. Swap in
+`SequentialBuilder` / `ConcurrentBuilder` if your model supports the streamed workflow path.)
 
 Run:  `python lab4_multiagent.py`  (after `az login`)
 
@@ -35,12 +40,9 @@ if str(_here) not in sys.path:
 # %%
 import asyncio
 import os
-from typing import cast
 
 # Microsoft Agent Framework — sequential orchestration over a Foundry project.
-from agent_framework import Message
 from agent_framework.foundry import FoundryChatClient
-from agent_framework.orchestrations import SequentialBuilder
 from azure.identity import AzureCliCredential
 
 # Reuse the workshop's canned compound prompt (also loads a local .env, if present).
@@ -92,28 +94,28 @@ async def main():
     # The compound caregiver question (same canned prompt every rail uses).
     question = text_of("follow_up_and_diet")
 
-    # 👉 Build the sequential orchestration. Participants run in the order given; output_from="all"
-    #    collects each participant's message so you can see the whole pipeline, not just the last reply.
-    workflow = SequentialBuilder(
-        participants=[triage_agent, education_agent, followup_agent],
-        output_from="all",
-    ).build()
+    # 👉 Run the pipeline in order, threading the running transcript into each stage. We pass the
+    #    accumulated context as ONE user turn per call (rather than a multi-assistant conversation),
+    #    which the model-router deployment handles reliably. Each agent builds on earlier stages.
+    pipeline = [
+        ("triage", triage_agent),
+        ("education", education_agent),
+        ("followup", followup_agent),
+    ]
 
-    # Run the pipeline and collect the outputs from every agent.
-    result = await workflow.run(question)
-    outputs = result.get_outputs()
-
-    # Display each stage of the pipeline.
     print(f"=== Care Pal sequential pipeline ===\nQ: {question}\n")
-    i = 1
+    transcript: list[tuple[str, str]] = []
     seen: list[str] = []
-    for response in outputs:
-        for msg in cast(list[Message], response.messages):
-            name = msg.author_name or ("assistant" if msg.role == "assistant" else "user")
-            print(f"{'-' * 60}\n{i:02d} [{name}]\n{msg.text}")
-            if name not in seen:
-                seen.append(name)
-            i += 1
+    for i, (name, agent) in enumerate(pipeline, start=1):
+        if transcript:
+            context = "\n".join(f"[{stage}]: {text}" for stage, text in transcript)
+            prompt = f"Caregiver's question: {question}\n\nConversation so far:\n{context}"
+        else:
+            prompt = question
+        reply = (await agent.run(prompt)).text
+        transcript.append((name, reply))
+        print(f"{'-' * 60}\n{i:02d} [{name}]\n{reply}")
+        seen.append(name)
 
     # Validation: both specialists contributed, so the reply covers appointments AND diet.
     specialists = {"education", "followup"}
@@ -122,9 +124,9 @@ async def main():
 
     # TODO (bonus): add a fourth participant — Assessment (symptom tracking) or Enrollment & Linkage
     #   (programs / eligibility) — and show it firing in the pipeline.
-    # GO FURTHER (Engineer): swap SequentialBuilder for ConcurrentBuilder (specialists answer in
-    #   parallel, then aggregate) or a Handoff/Magentic pattern for dynamic routing. See the
-    #   agent-framework orchestrations samples.
+    # GO FURTHER (Engineer): once on a model deployment that supports the streamed workflow path, swap
+    #   this manual loop for SequentialBuilder / ConcurrentBuilder, or a Handoff/Magentic pattern for
+    #   dynamic routing. See the agent-framework orchestrations samples.
 
 
 if __name__ == "__main__":
