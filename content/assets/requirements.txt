@@ -9,5 +9,5 @@ azure-ai-evaluation>=1.0.0      # Lab 3 only — safety / quality evaluators
 python-dotenv>=1.0.0            # load a local .env
 pydantic>=2.0.0                 # optional — define structured-output schemas as models
 
-# Optional, Engineer "go further" (Lab 4 multi-agent, code-first orchestration):
-# agent-framework>=1.0.0        # Microsoft Agent Framework (FoundryChatClient / FoundryAgent)
+# Lab 4 (Engineer) — code-first multi-agent, sequential orchestration:
+agent-framework>=1.9.0          # Microsoft Agent Framework (FoundryChatClient + SequentialBuilder)

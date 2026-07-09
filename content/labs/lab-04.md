@@ -71,38 +71,45 @@ orchestrator returns one merged JSON.
 samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_function_tool.py), [`sample_workflow_multi_agent.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_workflow_multi_agent.py)
 
 ## 🔴 Engineer — SDK
-Run **[`lab4_multiagent.py`](../assets/lab4_multiagent.py)** and fill the `# 👉` lines. The goal: build one **orchestrator** + two
-**specialist** agents, expose the specialists as function tools, and `assert` the compound query
-produces **≥2** specialist tool-calls.
+Run **[`lab4_multiagent.py`](../assets/lab4_multiagent.py)** and fill the `# 👉` lines. The goal: wire
+**three agents** into a **sequential pipeline** with the **Microsoft Agent Framework**
+(`SequentialBuilder`) so the compound question flows `triage → education → follow-up`, then `assert`
+that **both specialists** contributed to the collected outputs.
+
+This rail follows Microsoft Learn's **[Develop a multi-agent solution with Microsoft Agent
+Framework](https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/08-agent-framework-multi-agents.html)**
+(Summarizer → Classifier → Action), applied to Care Pal. It needs the `agent-framework` package
+(`pip install -r requirements.txt`) and `az login`.
 
 **The SDK flow:**
-1. **Create three agents** — `education` (triage-structured + file search) and `followup` (plain) are
-   separate agent versions; the `orchestrator` gets the delegation instructions **and** both tools.
-2. **Declare the tools** — `function_tool("ask_education", …)` / `function_tool("ask_followup", …)`
-   are `FunctionTool` declarations passed in `tools=[...]`. The `functions={}` dict maps each tool name
-   to a Python handler that forwards the question to the matching specialist (`run_text`).
-3. **Run the loop** — `run_with_trace(...)` is a manual function-tool loop: it runs the orchestrator,
-   and whenever Foundry emits a `function_call` it invokes your handler and continues the response with
-   `previous_response_id`. `trace.tool_calls` records which specialists fired — that's what you assert.
+1. **Create the chat client** — `FoundryChatClient(project_endpoint=…, model=…, credential=AzureCliCredential())`
+   connects the Agent Framework to your Foundry project.
+2. **Create three agents** — `chat_client.as_agent(name=…, instructions=…)` for `triage`, `education`
+   and `followup`. These are in-process agents (no server-side versions to clean up afterwards).
+3. **Build + run the pipeline** — `SequentialBuilder(participants=[…], output_from="all").build()` runs
+   the agents **in order over one shared conversation**. `output_from="all"` collects every agent's
+   message (not just the last), and `result.get_outputs()` returns them.
 
 ```python
-# specialists exposed as function tools; handlers forward each question to a specialist agent
-out, trace = run_with_trace(
-    orchestrator, PROMPTS["follow_up_and_diet"]["text"],
-    functions={"ask_education": ask_education, "ask_followup": ask_followup},
-)
-specialist_calls = [c for c in trace.tool_calls if c.name in ("ask_education", "ask_followup")]
-assert len(specialist_calls) >= 2, [c.name for c in trace.tool_calls]
+# three agents run in order, sharing the conversation; output_from="all" keeps every reply
+workflow = SequentialBuilder(
+    participants=[triage_agent, education_agent, followup_agent],
+    output_from="all",
+).build()
+result = await workflow.run(text_of("follow_up_and_diet"))
+outputs = result.get_outputs()
+seen = [m.author_name for r in outputs for m in r.messages]
+assert {"education", "followup"} <= set(seen), seen   # both specialists contributed
 ```
-> **Go further (Engineer):** re-implement as a **Workflow agent** (`WorkflowAgentDefinition`) or with
-> the **Microsoft Agent Framework** (`FoundryChatClient` + workflows) for code-first orchestration.
-> The notebook's "Three ways to orchestrate" table compares function tools vs. Workflow agents vs. the
-> Agent Framework, and *when* to pick each.
+> **Why sequential (not tools)?** No hand-written function-call loop and no orchestrator prompt — the
+> builder wires the chain and passes the shared conversation between agents. Each agent sees the prior
+> replies and adds its piece: triage classifies, education covers diet, follow-up covers appointments.
+> **Go further:** swap `SequentialBuilder` for `ConcurrentBuilder` (specialists answer in parallel, then
+> aggregate) or a Handoff / Magentic pattern for dynamic routing.
 
-📚 **Docs:** [Function calling / tools](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/function-calling) ·
-[Connected agents (multi-agent)](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/connected-agents) ·
-[Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/) ·
-samples: [`sample_agent_function_tool.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/tools/sample_agent_function_tool.py), [`sample_workflow_multi_agent.py`](https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/ai/azure-ai-projects/samples/agents/sample_workflow_multi_agent.py)
+📚 **Docs:** [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/) ·
+lab: [08 · multi-agent with Agent Framework](https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/08-agent-framework-multi-agents.html) ·
+sample: [`sequential_workflow_as_agent.py`](https://github.com/microsoft/agent-framework/blob/main/python/samples/03-workflows/agents/sequential_workflow_as_agent.py)
 
 ---
 

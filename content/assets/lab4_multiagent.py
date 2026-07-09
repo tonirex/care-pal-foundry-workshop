@@ -1,135 +1,131 @@
-"""Lab 4 (Engineer) — Multi-Agent Care Pal: orchestration via function-tool delegation.
+"""Lab 4 (Engineer) — Multi-Agent Care Pal: SEQUENTIAL orchestration (Microsoft Agent Framework).
 
-Turn the triage agent into an orchestrator that delegates the LOW-risk compound request to two
-specialists (Education + Follow-Up) and synthesises ONE reply.
+Instead of one orchestrator that delegates via function tools, this rail wires three agents into a
+**sequential pipeline** with the Microsoft Agent Framework's `SequentialBuilder`. The caregiver's
+compound question flows through the chain, and each agent adds its piece to the shared conversation:
 
-In the *new* Foundry agents API the classic ConnectedAgentTool is retired. The portal-aligned
-ways to do multi-agent are:
-  - delegate via FUNCTION TOOLS that call specialist agents  <- this lab (runnable + assertable)
-  - Workflow agents (WorkflowAgentDefinition) for declarative graphs
-  - the A2A tool (A2APreviewTool) for cross-project / external agents
-See the "GO FURTHER" note at the bottom. Run:  `python lab4_multiagent.py`
+    triage  ->  education  ->  follow-up
+
+- **triage**     classifies the message (intent / risk / route) — the safety gate.
+- **education**  answers the *diet / self-care* half of the question.
+- **follow-up**  answers the *appointments / check-ins* half of the question.
+
+`output_from="all"` collects every participant's message, so you SEE the whole pipeline (not just the
+last reply). This mirrors the Microsoft Learn exercise "Develop a multi-agent solution with Microsoft
+Agent Framework" (Summarizer -> Classifier -> Action), applied to Care Pal.
+
+Run:  `python lab4_multiagent.py`  (after `az login`)
 
 Lab instructions: ../labs/lab-04.md (all three rails) · portal walkthrough: ../labs/lab-04-portal.md
 
-Reference patterns: azure-ai-projects 2.x -> tools/sample_agent_function_tool.py and
-sample_workflow_multi_agent.py; agent-framework -> workflows (code-first option).
+Docs: Microsoft Agent Framework — https://learn.microsoft.com/en-us/agent-framework/ ·
+sequential orchestration sample:
+https://github.com/microsoft/agent-framework/blob/main/python/samples/03-workflows/agents/sequential_workflow_as_agent.py
 """
 # %%
 # --- make `common` importable whether run as a script or a notebook ---
 import sys
 import pathlib
+
 _here = (pathlib.Path(globals()["__file__"]).resolve().parent
          if "__file__" in globals() else pathlib.Path.cwd())
 if str(_here) not in sys.path:
     sys.path.insert(0, str(_here))
 
 # %%
-from common.carepal_common import (
-    create_agent,
-    make_triage_agent,
-    run_with_trace,
-    run_text,
-    build_vector_store,
-    file_search_tool,
-    function_tool,
-    text_of,
-    agent_name,
-    cleanup,
-    TRIAGE_INSTRUCTIONS,
-)
-import json
+import asyncio
+import os
+from typing import cast
 
-ORCHESTRATOR = TRIAGE_INSTRUCTIONS + """
-You are Care Pal's orchestrator. Triage first. For LOW-risk paths, delegate then synthesise ONE reply:
-- education / self-care content -> call the `ask_education` tool
-- follow-up scheduling, check-ins, symptom tracking -> call the `ask_followup` tool
-Call only the specialists needed. For medium/high risk do NOT delegate. Merge any source_labels /
-source_urls returned by specialists into your final JSON.
+# Microsoft Agent Framework — sequential orchestration over a Foundry project.
+from agent_framework import Message
+from agent_framework.foundry import FoundryChatClient
+from agent_framework.orchestrations import SequentialBuilder
+from azure.identity import AzureCliCredential
+
+# Reuse the workshop's canned compound prompt (also loads a local .env, if present).
+from common.carepal_common import text_of
+
+# --------------------------------------------------------------------- agent instructions
+# Plain-language instructions (no forced JSON) so the pipeline reads cleanly stage by stage.
+TRIAGE_INSTRUCTIONS = """
+You are Care Pal's triage agent for discharged heart/kidney/liver patients in Singapore and their
+caregivers. You are not a doctor and cannot diagnose. Read the caregiver's message and classify it in
+2-3 short lines only:
+- intent (e.g. follow_up, self_care_education, symptom_report)
+- risk_level: low | medium | high  (chest pain, severe breathlessness, fainting, stroke signs -> high)
+- route: education_navigation | timely_review | immediate_escalation | clarification
+Do NOT answer the question yourself — the specialists after you will. Keep it brief and plain.
 """
 
-FOLLOWUP = (
-    "You schedule check-ins and suggest follow-up appointment types after discharge, and collect "
-    "symptom responses. You do not diagnose. Reply briefly and plainly."
-)
+EDUCATION_INSTRUCTIONS = """
+You are Care Pal's education specialist. Using the triage read above, give brief, plain-language
+self-care and DIET guidance for a discharged heart-failure patient (e.g. low-salt and fluid guidance,
+weight monitoring, what to watch for). You are not a doctor and do not diagnose. 2-4 short sentences.
+Do NOT cover appointment scheduling — that is the follow-up specialist's job.
+"""
 
-# A tiny JSON schema shared by both delegation tools.
-_QUESTION_SCHEMA = {
-    "type": "object",
-    "properties": {"question": {"type": "string", "description": "the user's request to forward"}},
-    "required": ["question"],
-    "additionalProperties": False,
-}
+FOLLOWUP_INSTRUCTIONS = """
+You are Care Pal's follow-up specialist. Using the conversation above, suggest the follow-up
+APPOINTMENTS and check-ins a discharged heart-failure patient typically needs (e.g. cardiology review,
+GP/polyclinic follow-up, medication review, nurse symptom check-ins). You do not diagnose. 2-4 short
+sentences focused on scheduling and next steps.
+"""
 
 
 # %%
-def main():
-    vs_id = build_vector_store("healthhub-discharge-pack")
-    fs = file_search_tool(vs_id)
-
-    # Two specialists: Education (grounded with file search) + Follow-Up (plain).
-    education = make_triage_agent(
-        name=agent_name("education"),
-        instructions=TRIAGE_INSTRUCTIONS,
-        tools=[fs],
-        structured=True,
+async def main():
+    # Create the chat client (authenticate with `az login`; FoundryChatClient talks to your project).
+    credential = AzureCliCredential()
+    chat_client = FoundryChatClient(
+        credential=credential,
+        project_endpoint=os.getenv("FOUNDRY_PROJECT_ENDPOINT"),
+        model=os.getenv("FOUNDRY_MODEL_NAME"),
     )
-    followup = create_agent(name=agent_name("followup"), instructions=FOLLOWUP, structured=False)
 
-    # 👉 Expose each specialist as a FUNCTION TOOL the orchestrator can call.
-    tools = [
-        function_tool("ask_education", "Grounded self-care / education answer with citations",
-                      _QUESTION_SCHEMA),
-        function_tool("ask_followup", "Follow-up scheduling, check-ins and symptom tracking",
-                      _QUESTION_SCHEMA),
-    ]
+    # 👉 Create the three participants (name + instructions). These are in-process agents — no
+    #    server-side versions to clean up afterwards.
+    triage_agent = chat_client.as_agent(name="triage", instructions=TRIAGE_INSTRUCTIONS)
+    education_agent = chat_client.as_agent(name="education", instructions=EDUCATION_INSTRUCTIONS)
+    followup_agent = chat_client.as_agent(name="followup", instructions=FOLLOWUP_INSTRUCTIONS)
 
-    # Handlers: each forwards the question to its specialist agent and returns the text.
-    # We wrap them in a small logger so you can SEE the hand-off (the question the
-    # orchestrator forwarded and the specialist's reply), not just the tool names.
-    # `handoffs` also keeps a structured record you can inspect afterwards.
-    handoffs = []
+    # The compound caregiver question (same canned prompt every rail uses).
+    question = text_of("follow_up_and_diet")
 
-    def _delegate(tool_name, specialist):
-        def handler(question):
-            reply = run_text(specialist, question)
-            handoffs.append({"tool": tool_name, "question": question, "reply": reply})
-            print(f"\n─── {tool_name}  ▸ orchestrator asked ───\n{question}")
-            print(f"─── {tool_name}  ◂ specialist replied ───\n{reply}")
-            return reply
-        return handler
+    # 👉 Build the sequential orchestration. Participants run in the order given; output_from="all"
+    #    collects each participant's message so you can see the whole pipeline, not just the last reply.
+    workflow = SequentialBuilder(
+        participants=[triage_agent, education_agent, followup_agent],
+        output_from="all",
+    ).build()
 
-    functions = {
-        "ask_education": _delegate("ask_education", education),
-        "ask_followup": _delegate("ask_followup", followup),
-    }
+    # Run the pipeline and collect the outputs from every agent.
+    result = await workflow.run(question)
+    outputs = result.get_outputs()
 
-    orchestrator = make_triage_agent(
-        name=agent_name("orchestrator"), instructions=ORCHESTRATOR, tools=tools, structured=True
-    )
-    # NOTE: if your model rejects structured output + tools together, set structured=False here;
-    # extract_json() still tolerates a JSON-in-prose reply.
+    # Display each stage of the pipeline.
+    print(f"=== Care Pal sequential pipeline ===\nQ: {question}\n")
+    i = 1
+    seen: list[str] = []
+    for response in outputs:
+        for msg in cast(list[Message], response.messages):
+            name = msg.author_name or ("assistant" if msg.role == "assistant" else "user")
+            print(f"{'-' * 60}\n{i:02d} [{name}]\n{msg.text}")
+            if name not in seen:
+                seen.append(name)
+            i += 1
 
-    try:
-        out, trace = run_with_trace(orchestrator, text_of("follow_up_and_diet"), functions=functions)
-        called = [c.name for c in trace.tool_calls]
-        specialist = [c for c in trace.tool_calls if c.name in ("ask_education", "ask_followup")]
-        print("\ntool calls:", called)
-        assert len(specialist) >= 2, f"expected >=2 specialist calls, got {called}"
+    # Validation: both specialists contributed, so the reply covers appointments AND diet.
+    specialists = {"education", "followup"}
+    assert specialists <= set(seen), f"expected both specialists to run, got {seen}"
+    print("\nLab 4 passed ✅")
 
-        # The orchestrator MERGES both specialist replies into one triage JSON - print it so you
-        # can see the synthesised, single answer the user would actually receive.
-        print("\n=== Orchestrator's final merged reply (synthesised from both specialists) ===")
-        print(json.dumps(out, indent=2))
-        print("\nLab 4 passed ✅")
-
-        # TODO (bonus): add a third specialist (Assessment or Enrollment & Linkage) and show it firing.
-        # GO FURTHER (Engineer): re-implement this as a Workflow agent (WorkflowAgentDefinition,
-        # see sample_workflow_multi_agent.py) or with the Microsoft Agent Framework
-        # (agent-framework -> FoundryChatClient + workflows) for code-first orchestration.
-    finally:
-        cleanup(orchestrator, education, followup)
+    # TODO (bonus): add a fourth participant — Assessment (symptom tracking) or Enrollment & Linkage
+    #   (programs / eligibility) — and show it firing in the pipeline.
+    # GO FURTHER (Engineer): swap SequentialBuilder for ConcurrentBuilder (specialists answer in
+    #   parallel, then aggregate) or a Handoff/Magentic pattern for dynamic routing. See the
+    #   agent-framework orchestrations samples.
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
